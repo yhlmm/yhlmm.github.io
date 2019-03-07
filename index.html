@@ -46,7 +46,7 @@
 			<img src="" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">yh</a></h1>
+		  <h1 class="header-author"><a href="/">flydog</a></h1>
 		</hgroup>
 		
 
@@ -104,7 +104,7 @@
 				<img src="" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">yh</h1>
+			  <h1 class="header-author js-header-author">flydog</h1>
 			</hgroup>
 			
 			
@@ -172,7 +172,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>##博客搭建</p>
+<p>###Github创建个人仓库</p>
+<p>​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。</p>
+<p>###安装git</p>
+<p>​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:</p>
+<p><img src="本博客的搭建/1.jpg" alt="1551924963422"></p>
+<p>接着设置user.name和user.email配置信息：<img src="本博客的搭建\2.png" alt="2"></p>
+<p>######生成ssh密钥文件：</p>
+<p><img src="E:\blog\blog\source\_posts\本博客的搭建\3.png" alt="3"></p>
+<p>​    然后直接三个回车即可，默认不需要设置密码。</p>
+<p>​    然后找到生成.ssh文件夹中的id_rsa.pub密钥，将内容全部复制。</p>
+<p><img src="E:\blog\blog\source\_posts\本博客的搭建\4.png" alt="4"></p>
+<p>​    打开<a href="http://link.zhihu.com/?target=https%3A//github.com/settings/keys" target="_blank" rel="noopener">GitHub_Settings_keys</a> 页面，新建new SSH Key。</p>
+<p>​    Title为标题，任意填即可，将刚刚复制的id_rsa.pub内容粘贴进去，最后点击Add SSH key。</p>
+<p>​    在Git Bash中检测GitHub公钥设置是否成功，输入 ssh <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> ：</p>
+<p><img src="E:\blog\blog\source\_posts\本博客的搭建\5.png" alt="5"></p>
+<p>###安装Node.js</p>
+<p>​    注意安装node.js会包含环境变量及npm的安装。</p>
+<p>###安装Hexo<br>​    Hexo就是我们的个人博客网站的框架， 这里需要自己在电脑常里创建一个文件夹，可以命名为Blog，Hexo框架与以后你自己发布的网页都在这个文件夹中。创建好后，进入文件夹中，按住shift键，右击鼠标点击命令行</p>
+<p>​    使用npm命令安装Hexo，输入：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\6.png" alt="6"></p>
+<p>这个安装时间较长，耐心等待，安装完成之后，初始化我们的博客，输入：<br>​      hexo init blog</p>
+<p>​      注意，这里的命令都是作用在刚刚创建的Blog文件夹中。<br>​      为了检测我们的网站雏形，分别按顺序输入以下三条命令：<br>​    -hexo new test_my_site<br>​    -hexo g<br>​    -hexo s<br>现在来介绍常用的Hexo命令：<br>​      -npm install hexo -g #安装Hexo<br>​      -npm update hexo -g #升级<br>​      -hexo init #初始化博客</p>
+<p>命令简写：</p>
+<p> -hexo n “我的博客” == hexo new “我的博客” #新建文章<br> -hexo g == hexo generate #生成<br> -hexo s == hexo server #启动服务预览<br> -hexo d == hexo deploy #部署</p>
+<p> -hexo server #Hexo会监视文件变动并自动更新，无须重启服务器<br> -hexo server -s #静态模式<br> -hexo server -p 5000 #更改端口<br> -hexo server -i 192.168.1.1 #自定义 IP<br> -hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令<br>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。<br><strong>推送网站：</strong></p>
+<p>​      上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件。<br>​    下一步将我们的Hexo与Github关联起来，打开站点配置文件_config.yml，翻到最后修改为：<br>​    deploy:<br>​    type: git<br>​    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git<br>​    branch: master<br><img src="E:\blog\blog\source\_posts\本博客的搭建\7.png" alt="7"><br>最后安装Git部署插件，输入命令：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\8.png" alt="8"><br>    这时，我们分别输入三条命令：<br>    -hexo clean<br>    -hexo g<br>    -hexo d</p>
+
       
 
       
@@ -286,7 +312,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 yh
+    		&copy; 2019 flydog
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
