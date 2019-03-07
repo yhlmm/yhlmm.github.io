@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java内存区域    Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的    类信息、常量、静态变量、即时编译器编译后的代码数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存模型及内存分区">
+<meta property="og:url" content="http://yoursite.com/2019/03/07/JVM内存模型及内存分区/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="java内存区域    Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的    类信息、常量、静态变量、即时编译器编译后的代码数">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/03/07/JVM内存模型及内存分区/1.png">
+<meta property="og:updated_time" content="2019-03-07T11:45:12.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM内存模型及内存分区">
+<meta name="twitter:description" content="java内存区域    Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的    类信息、常量、静态变量、即时编译器编译后的代码数">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/07/JVM内存模型及内存分区/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/07/JVM内存模型及内存分区/">
+
+
+
+
+
+  <title>JVM内存模型及内存分区 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/JVM内存模型及内存分区/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM内存模型及内存分区</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-07T16:30:38+08:00">
+                2019-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h2><p><img src="/2019/03/07/JVM内存模型及内存分区/1.png" alt="1"><br>    Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。</p>
+<ul>
+<li>方法区(Method Area)<br>  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的    类信息、常量、静态变量、即时编译器编译后的代码数据，根据java虚拟机规范的规定，当方<br>  法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。<strong>方法区中存在一个运<br>  行时常量池</strong>（Runtime Constant Pool）的区域，它主要用于存放编译器生成的各种字<br>  面量和和符号引用，这些内容将在类加载后存放到运行时常量池中，以便后续使用。<ul>
+<li>存放虚拟机加载的类信息，常量，静态变量,(即时编译器编译后的代码)</li>
+<li>无法满足内存分配需求时-&gt;OutOfMemoryError</li>
+<li>常量池无法申请内存时-&gt;OutOfMemoryError</li>
+</ul>
+</li>
+<li>JVM堆(Java Heap):<br>  java堆也属于线程共享的内存区域，它在虚拟机启动时创建，是java虚拟机所管理的内存中    最大的一块，主要用于存放对象实例，几乎所有的对象实例都在这里分配内存，注意__java<br>  堆是垃圾收集器的主要区域，因此有时也被叫做GC堆，如果堆中没有内存完成实例分配，并且<br>  堆也无法扩展的时候，将会抛出OutOfMemoryError异常。<ul>
+<li>存放对象的实例、数组</li>
+<li>线程共享，最大，虚拟机启动时创建</li>
+<li>堆上无内存可完成实例分配且堆无法扩展时-&gt;OutOfMemoryError</li>
+<li>逻辑上连续，Xmx-Xms控制堆大小</li>
+</ul>
+</li>
+<li>程序计数器(Program Counter Register)<br>  属于线程私有的数据区域，是一小块内存空间，主要代表当前线程所执行的字节码行号指示<br>  器。字节码解释器工作时，通过改变这个计数器的值来选取下一条需要执行的字节码指令，分<br>  循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。<ul>
+<li>记录正在执行的虚拟机字节码指令地址</li>
+<li>执行本地方法是计数器为空(undefined)</li>
+<li>线程私有，唯一一个无OutOfMemoryError</li>
+</ul>
+</li>
+<li>虚拟机栈（Java Virtual Machine Stacks）<br>  线程私有的数据区域，与线程同时创建，总数与线程关联，代表java方法执行的内存模型。每<br>  个方法执行时都会创建一个栈帧来存储方法的变量表，操作数栈，动态链接方法、返回值、返<br>  回地址等信息。<ul>
+<li>有个局部变量表，存放了基本数据类型，对象的引用，returnAddress类型(指向一条字<br>节码指令的地址)</li>
+<li>线程请求栈深度大于虚拟机所允许的深度-&gt;StackOverflowError</li>
+<li>虚拟机栈扩展时无法申请到足够的内存-&gt;OutOfMemoryError </li>
+</ul>
+</li>
+<li>本地方法栈(Native Method Stacks):<br>  线程私有的数据结构，这部分主要与虚拟机用到的Native方法相关，一般情况下，我们无需<br>  关心此区域。</li>
+</ul>
+<h2 id="java内存模型概述"><a href="#java内存模型概述" class="headerlink" title="java内存模型概述"></a>java内存模型概述</h2><pre><code>java内存模型是一种抽象的概念，它描述的是一组规则或规范，通过这组规范定义了程序中各
+</code></pre><p>个变量(包括实例字段，静态字段和构成数组对象的元素)的访问方式。由于JVM运行程序的实体是线程，而每个线程创建时JVM都会为其创建一个工作内存(有些地方称为栈空间)，用于存储线程私有的数据，而java内存模型中规定所有变量都存储在主内存中，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行，首先要将变量从主内存拷贝到自己的工作内存空间，然后对变量进行操作，操作完成后再将变量写回主内存，不能直接操作主内存中的变量，工作内存中存储着主内存中的变量的拷贝副本。不同的线程无法访问对方的工作内存。</p>
+<ul>
+<li>JMM与java内存区域的划分是不同的概念层次。JMM描述的是一种规则，意在解决并发编程可能出现的线程安全问题，通过这组规则控制程序中各个变量在共享数据区域和私有数据区域的访问方式。JMM定义了程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存读取变量这样的底层细节，并提供了内置解决方案(happen-before原则)及其外部可使用的同步手段(synchronized/volatile等)，确保了程序执行在多线程环境中的应有的原子性，可视性及其有序性。</li>
+</ul>
+<h2 id="为什么要实现内存模型？"><a href="#为什么要实现内存模型？" class="headerlink" title="为什么要实现内存模型？"></a>为什么要实现内存模型？</h2><pre><code>- 内存模型就是为了在现代计算机平台中保证程序可以正确性的执行，但不同的平台实现是不同的。
+- 编译器中生成的指令顺序，可以与源代码中的顺序不同
+- 编译器可能把变量保存在寄存器中而不是内存中
+- 处理器可以采用乱序或并行等方式来执行指令
+- 缓存可能会改变将写入变量提交到主内存的次序
+- 保存在处理器本地缓存中的值，对其他处理器是不可见的
+</code></pre><h2 id="Student-s-new-Student-在内存中做了哪些事情？"><a href="#Student-s-new-Student-在内存中做了哪些事情？" class="headerlink" title="Student s=new Student();在内存中做了哪些事情？"></a>Student s=new Student();在内存中做了哪些事情？</h2><pre><code>- 加载Student.class文件进内存
+- 在栈内存为s开辟空间
+- 在堆内存为学生对象开辟空间
+- 对学生对象的成员变量进行默认初始化
+- 对学生对象的成员变量进行显示初始化
+- 通过构造方法对学生对象的成员变量赋值
+- 学生对象初始化完毕，把对象地址赋值给s变量
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/本博客的搭建/" rel="next" title="establsh">
+                <i class="fa fa-chevron-left"></i> establsh
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java内存区域"><span class="nav-number">1.</span> <span class="nav-text">java内存区域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java内存模型概述"><span class="nav-number">2.</span> <span class="nav-text">java内存模型概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要实现内存模型？"><span class="nav-number">3.</span> <span class="nav-text">为什么要实现内存模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Student-s-new-Student-在内存中做了哪些事情？"><span class="nav-number">4.</span> <span class="nav-text">Student s=new Student();在内存中做了哪些事情？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
