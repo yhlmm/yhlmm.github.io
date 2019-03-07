@@ -172,7 +172,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##博客搭建</p>
+        <p>博客搭建</p>
 <p>###Github创建个人仓库</p>
 <p>​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。</p>
 <p>###安装git</p>
@@ -197,7 +197,7 @@
 <p>命令简写：</p>
 <p> -hexo n “我的博客” == hexo new “我的博客” #新建文章<br> -hexo g == hexo generate #生成<br> -hexo s == hexo server #启动服务预览<br> -hexo d == hexo deploy #部署</p>
 <p> -hexo server #Hexo会监视文件变动并自动更新，无须重启服务器<br> -hexo server -s #静态模式<br> -hexo server -p 5000 #更改端口<br> -hexo server -i 192.168.1.1 #自定义 IP<br> -hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令<br>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。<br><strong>推送网站：</strong></p>
-<p>​      上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件。<br>​    下一步将我们的Hexo与Github关联起来，打开站点配置文件_config.yml，翻到最后修改为：<br>​    deploy:<br>​    type: git<br>​    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git<br>​    branch: master<br><img src="E:\blog\blog\source\_posts\本博客的搭建\7.png" alt="7"><br>最后安装Git部署插件，输入命令：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\8.png" alt="8"><br>    这时，我们分别输入三条命令：<br>    -hexo clean<br>    -hexo g<br>    -hexo d</p>
+<p>​      上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件。<br>​    下一步将我们的Hexo与Github关联起来，打开站点配置文件_config.yml，翻到最后修改为：<br>​    deploy:<br>​    type: git<br>​    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git<br>​    branch: master<br><img src="E:\blog\blog\source\_posts\本博客的搭建\7.png" alt="7"><br>最后安装Git部署插件，输入命令：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\8.png" alt="8"><br>​    这时，我们分别输入三条命令：<br>​    -hexo clean<br>​    -hexo g<br>​    -hexo d</p>
 
       
 

@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>本博客的搭建 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密">
+  <meta name="description" content="博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密钥文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="本博客的搭建">
 <meta property="og:url" content="http://yoursite.com/2019/03/06/本博客的搭建/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密">
+<meta property="og:description" content="博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密钥文">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/03/06/本博客的搭建/本博客的搭建/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/03/06/本博客的搭建/本博客的搭建/2.png">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="e:/blog/blog/source/_posts/本博客的搭建/6.png">
 <meta property="og:image" content="e:/blog/blog/source/_posts/本博客的搭建/7.png">
 <meta property="og:image" content="e:/blog/blog/source/_posts/本博客的搭建/8.png">
-<meta property="og:updated_time" content="2019-03-07T03:03:14.870Z">
+<meta property="og:updated_time" content="2019-03-07T03:09:19.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="本博客的搭建">
-<meta name="twitter:description" content="##博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密">
+<meta name="twitter:description" content="博客搭建 ###Github创建个人仓库 ​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。 ###安装git ​    下载git安装，在命令行里输入git测试是否安装成功。若安装成功，将你的Git与Gitghub账号绑定，鼠标右击打开Gitbash:  接着设置user.name和user.email配置信息： ######生成ssh密钥文">
 <meta name="twitter:image" content="http://yoursite.com/2019/03/06/本博客的搭建/本博客的搭建/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -183,7 +183,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##博客搭建</p>
+        <p>博客搭建</p>
 <p>###Github创建个人仓库</p>
 <p>​    首先注册一个Github账号，然后创建一个新仓库，仓库名应该命名为用户名.github.io。</p>
 <p>###安装git</p>
@@ -208,7 +208,7 @@
 <p>命令简写：</p>
 <p> -hexo n “我的博客” == hexo new “我的博客” #新建文章<br> -hexo g == hexo generate #生成<br> -hexo s == hexo server #启动服务预览<br> -hexo d == hexo deploy #部署</p>
 <p> -hexo server #Hexo会监视文件变动并自动更新，无须重启服务器<br> -hexo server -s #静态模式<br> -hexo server -p 5000 #更改端口<br> -hexo server -i 192.168.1.1 #自定义 IP<br> -hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令<br>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。<br><strong>推送网站：</strong></p>
-<p>​      上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件。<br>​    下一步将我们的Hexo与Github关联起来，打开站点配置文件_config.yml，翻到最后修改为：<br>​    deploy:<br>​    type: git<br>​    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git<br>​    branch: master<br><img src="E:\blog\blog\source\_posts\本博客的搭建\7.png" alt="7"><br>最后安装Git部署插件，输入命令：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\8.png" alt="8"><br>    这时，我们分别输入三条命令：<br>    -hexo clean<br>    -hexo g<br>    -hexo d</p>
+<p>​      上面只是在本地预览，接下来要做的就是就是推送网站，也就是发布网站，让我们的网站可以被更多的人访问。在设置之前，需要解释一个概念，在blog根目录里的_config.yml文件称为<strong>站点</strong>配置文件。<br>​    下一步将我们的Hexo与Github关联起来，打开站点配置文件_config.yml，翻到最后修改为：<br>​    deploy:<br>​    type: git<br>​    repo: 这里填入你之前在GitHub上创建仓库的完整路径，记得加上 .git<br>​    branch: master<br><img src="E:\blog\blog\source\_posts\本博客的搭建\7.png" alt="7"><br>最后安装Git部署插件，输入命令：<br><img src="E:\blog\blog\source\_posts\本博客的搭建\8.png" alt="8"><br>​    这时，我们分别输入三条命令：<br>​    -hexo clean<br>​    -hexo g<br>​    -hexo d</p>
 
       
 
