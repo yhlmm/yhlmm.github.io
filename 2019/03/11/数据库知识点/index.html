@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关系型数据库与非关系型数据库关系型数据库：指采用了关系模型来组织数据的数据库。关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。其最大的特点是事务一致性。比如：SQLite,Oracle,mysql  优点： 易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率。 使用方便：通用的SQL语言使得操作关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库知识点">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/11/数据库知识点/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关系型数据库与非关系型数据库关系型数据库：指采用了关系模型来组织数据的数据库。关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。其最大的特点是事务一致性。比如：SQLite,Oracle,mysql  优点： 易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率。 使用方便：通用的SQL语言使得操作关">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/1.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/2.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/3.png">
+<meta property="og:updated_time" content="2019-03-14T03:53:29.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库知识点">
+<meta name="twitter:description" content="关系型数据库与非关系型数据库关系型数据库：指采用了关系模型来组织数据的数据库。关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。其最大的特点是事务一致性。比如：SQLite,Oracle,mysql  优点： 易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率。 使用方便：通用的SQL语言使得操作关">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/11/数据库知识点/">
+
+
+
+
+
+  <title>数据库知识点 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/11/数据库知识点/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库知识点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-11T20:46:43+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h3 id="关系型数据库与非关系型数据库"><a href="#关系型数据库与非关系型数据库" class="headerlink" title="关系型数据库与非关系型数据库"></a>关系型数据库与非关系型数据库</h3><p><strong>关系型数据库：</strong>指采用了关系模型来组织数据的数据库。关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。其最大的特点是事务一致性。比如：SQLite,Oracle,mysql</p>
+<ol>
+<li>优点：<ul>
+<li>易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率。</li>
+<li>使用方便：通用的SQL语言使得操作关系型数据库非常方便，可用于一个表以及多个表之间非常复杂的查询。</li>
+<li>容易理解：二维表结构是非常贴近逻辑世界的一个概念，关系模型相对网状、层次等其他模型来说更容易理解</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>为了维护一致性所付出的巨大代价就是其读写性能比较差，尤其是海量数据的高效率读写。</li>
+<li>固定的表结构，灵活度稍欠</li>
+<li>高并发读写需求，传统关系型数据库来说，硬盘I/O是一个很大的瓶颈。</li>
+</ul>
+</li>
+</ol>
+<p><strong>非关系型数据库：</strong>非关系型数据库指非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统。非关系型数据库以键值对存储，且结构不固定，每一个元组可以有不一样的字段，每个元组可以根据需要增加一些自己的键值对，不局限于固定的结构，可以减少一些时间和空间的开销。比如：MongoDb,redis,HBase</p>
+<ol>
+<li>优点：<ul>
+<li>读写性能高。无需经过sql解析，并且nosql可以使用硬盘或随机存储器作为载体。</li>
+<li>高扩展性。基于键值对，数据没有耦合性，容易扩展。</li>
+<li>格式灵活。存储数据的格式可以是key,value形式、文档形式、图片形式等等，文档形式、图片形式等等，使用灵活，应用场景广泛，而关系型数据库则只支持基础类型。</li>
+<li>成本低。nosql数据库部署简单，基本都是开源软件。(学习成本高)</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>不提供sql支持，学习</li>
+<li>无事务处理</li>
+<li>数据结构相对复杂，复杂查询方面稍欠</li>
+</ul>
+</li>
+</ol>
+<h3 id="数据库范式"><a href="#数据库范式" class="headerlink" title="数据库范式"></a>数据库范式</h3><ul>
+<li>第一范式：指数据库表的每一列都是不可分割的基本数据项，同一列中不能有多个值。</li>
+<li>第二范式：实体的属性完全依赖于主关键字。所谓完全依赖是指不存在仅依赖于主关键字一部分的属性。</li>
+<li>第三范式：属性不依赖于其他非主属性。</li>
+</ul>
+<h3 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h3><ul>
+<li>原子性（Atomicity）指事务作为整体来执行，要么全部执行，要么全不执行。</li>
+<li>一致性（Consistency）指事务应确保数据从一个一致的状态转变为另一个一致的状态。</li>
+<li>隔离性（Isolation）指多个事务并发执行时，一个事务的执行不应影响其他事务的执行。</li>
+<li>持久性（Durability）指已提交的事务修改数据会被持久保存。</li>
+</ul>
+<h3 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h3><h4 id="b-树索引"><a href="#b-树索引" class="headerlink" title="b+树索引"></a>b+树索引</h4><p><font color="red" face="微雅软黑" size="4">索引是对数据库表中一个或多个列的值进行排序的数据结构，以协助快速查询、更新数据库表中数据。</font>索引的实现通常使用B_TREE及其变种。索引加速了数据访问，因为存储引擎不会再去扫描整张表得到需要的数据；相反，它从根节点开始，根节点保存了子节点的指针，存储引擎会根据指针快速寻找数据。<br><img src="/2019/03/11/数据库知识点/1.png" alt="1"><br>上图显示了一种索引方式。左边是数据库中的数据表，有col1和col2两个字段，一共有15条记录；右边是以col2列为索引列的B_TREE索引，每个节点包含索引的键值和对应数据表地址的指针，这样就可以都过B_TREE在 O(logn) 的时间复杂度内获取相应的数据，这样明显地加快了检索的速度。</p>
+<ol>
+<li><strong>索引的底层实现原理和优化</strong><br>在数据结构中，我们最为常见的搜索结构就是二叉搜索树和AVL树(高度平衡的二叉搜索树，为了提高二叉搜索树的效率，减少树的平均搜索长度)了。然而，无论二叉搜索树还是AVL树，当数据量比较大时，都会由于树的深度过大而造成I/O读写过于频繁，进而导致查询效率低下，因此对于索引而言，多叉树结构成为不二选择。特别地，B-Tree的各种操作能使B树保持较低的高度，从而保证高效的查找效率。</li>
+</ol>
+<p>1). B-Tree(平衡多路查找树)<br>    B_TREE是一种平衡多路查找树，是一种动态查找效率很高的树形结构。B_TREE中所有结点的孩子结点的最大值称为B_TREE的阶，B_TREE的阶通常用m表示，简称为m叉树。一般来说，应该是m&gt;=3。一颗m阶的B_TREE或是一颗空树，或者是满足下列条件的m叉树：</p>
+<ul>
+<li>树中每个结点最多有m个孩子结点；</li>
+<li>若根结点不是叶子节点，则根结点至少有2个孩子结点；</li>
+<li>除根结点外，其它结点至少有(m/2的上界)个孩子结点；</li>
+<li>结点的结构如下图所示，其中，n为结点中关键字个数，(m/2的上界)-1 &lt;= n &lt;= m-1；di(1&lt;=i&lt;=n)为该结点的n个关键字值的第i个，且di&lt; d(i+1)；ci(0&lt;=i&lt;=n)为该结点孩子结点的指针，且ci所指向的节点的关键字均大于或等于di且小于d(i+1)；<br><img src="/2019/03/11/数据库知识点/2.png" alt="2"></li>
+<li>所有的叶结点都在同一层上，并且不带信息（可以看作是外部结点或查找失败的结点，实际上这些结点不存在，指向这些结点的指针为空）。<br><img src="/2019/03/11/数据库知识点/3.png" alt="3"><br><em>这个图有点问题，叶子结点的数目正好等于树中所包含的关键字总个数加1，这个图有问题。</em><br>B_TREE的查找类似二叉排序树的查找，所不同的是B-树每个结点上是多关键码的有序表，在到达某个结点时，先在有序表中查找，若找到，则查找成功；否则，到按照对应的指针信息指向的子树中去查找，当到达叶子结点时，则说明树中没有对应的关键码。由于B_TREE的高检索效率，B-树主要应用在文件系统和数据库中，对于存储在硬盘上的大型数据库文件，可以极大程度减少访问硬盘次数，大幅度提高数据检索效率。</li>
+</ul>
+<p><strong>M阶B树性质</strong></p>
+<pre><code>1. 根结点的儿子数为[2, M]；
+2. 除根结点以外的非叶子结点的儿子数为[M/2, M]；
+3. 每个结点存放至少M/2（取上整）-1和至多M-1个关键字；（至少2个关键字,根节点至少一个关键字）；
+4. 非叶子结点的关键字个数=指向儿子的指针个数-1；
+5. 非叶子结点的关键字：K[1], K[2], …, K[m-1]，m&lt;M+1；且K[i]&lt; K[i+1] ；
+6. 非叶子结点的指针：P[1], P[2], …, P[m]；其中P[1]指向关键字小于K[1]的子树，P[m]指向关键字大于K[m-1]的子树，其它P[i]指向关键字属于(K[i-1], K[i])的子树；
+7. 所有叶子结点位于同一层；
+</code></pre><p>可以指定多个列作为索引列，多个索引列共同组成键。适用于全键值、键值范围和键前缀查找，其中键前缀查找只适用于最左前缀查找。如果不是按照索引列的顺序进行查找，则无法使用索引。InnoDB 的 B+Tree 索引分为主索引和辅助索引。主索引的叶子节点 data 域记录着完整的数据记录，这种索引方式被称为<strong>聚簇索引</strong>。因为无法把数据行存放在两个不同的地方，所以一个表只能有一个聚簇索引。*<em>辅助索引的叶子节点的 data 域记录着主键的值，因此在使用辅助索引进行查找时，需要先查找到主键值，然后再到主索引中进行查找。</em></p>
+<h4 id="全文索引与hash索引结构"><a href="#全文索引与hash索引结构" class="headerlink" title="全文索引与hash索引结构"></a>全文索引与hash索引结构</h4><ul>
+<li>哈希索引：哈希索引（hash index）基于哈希表实现，只有精确匹配索引所有列的查询才有效。对于每一行数据，存储引擎都会对所有的索引列计算一个哈希码（hash code），哈希码是一个较小的值，并且不同键值的行计算出来的哈希码也不一样。哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向每个数据行的指针。对于hash相同的，采用链表的方式解决冲突。类似于hashmap。因为索引的结构是十分紧凑的，所以hash索引的查询很快。<br>  能以O(1)的时间复杂度进行查找，但是失去了有序性，所以无法用于排序和分组，也无法用于部分查找和范围查找。</li>
+<li>全文索引：全文索引（也称全文检索）是目前搜索引擎使用的一种关键技术。它能够利用【分词技术】等多种算法智能分析出文本文字中关键词的频率和重要性，然后按照一定的算法规则智能地筛选出我们想要的搜索结果。原理是先定义一个词库，然后在文章中查找每个词条(term)出现的频率和位置，把这样的频率和位置信息按照词库的顺序归纳，这样就相当于对文件建立了一个以词库为目录的索引，这样查找某个词的时候就能很快的定位到该词出现的位置。(使用倒排索引技术)</li>
+</ul>
+<h4 id="为什么说B-Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？"><a href="#为什么说B-Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？" class="headerlink" title="为什么说B+ Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？"></a>为什么说B+ Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？</h4><ul>
+<li><font color="red">B+ Tree的磁盘读写代价更低</font>：B+tree的内部结点并没有指向关键字具体信息的指针(红色部分)，因此其内部结点相对B 树更小。如果把所有同一内部结点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多。一次性读入内存中的需要查找的关键字也就越多，相对来说IO读写次数也就降低了；</li>
+<li><font color="red">B+Tree的查询效率更加稳定</font>：由于内部结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引，所以，任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当；</li>
+<li><font color="red"><strong>数据库索引采用B+树而不是B树的主要原因：</strong></font>B+树只要遍历叶子节点就可以实现整棵树的遍历，而且在数据库中基于范围的查询是非常频繁的，而B树只能中序遍历所有节点，效率太低。</li>
+</ul>
+<h4 id="文件索引和数据库索引为什么使用B-树"><a href="#文件索引和数据库索引为什么使用B-树" class="headerlink" title="文件索引和数据库索引为什么使用B+树?"></a>文件索引和数据库索引为什么使用B+树?</h4><p>文件与数据库都是需要较大的存储，也就是说，它们都不可能全部存储在内存中，故需要存储到磁盘上。而所谓索引，则为了数据的快速定位与查找，那么索引的结构组织要尽量减少查找过程中磁盘I/O的存取次数，因此B+树相比B树更为合适。数据库系统巧妙利用了局部性原理与磁盘预读原理，将一个节点的大小设为等于一个页，这样每个节点只需要一次I/O就可以完全载入，而红黑树这种结构，高度明显要深的多，并且由于逻辑上很近的节点(父子)物理上可能很远，无法利用局部性。最重要的是，B+树还有一个最大的好处：方便扫库。B树必须用中序遍历的方法按序扫库，而B+树直接从叶子结点挨个扫一遍就完了，B+树支持range-query非常方便，而B树不支持，这是数据库选用B+树的最主要原因。</p>
+<h4 id="最左前缀匹配原则"><a href="#最左前缀匹配原则" class="headerlink" title="最左前缀匹配原则"></a>最左前缀匹配原则</h4><p>最左优先，以最左边的为起点任何连续的索引都能匹配上。</p>
+<p>索引可以简单如一个列<code>(a)</code>，也可以复杂如多个列<code>(a, b, c, d)</code>，即<strong>联合索引</strong>。如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否<strong>存在（相等）</strong>，遇到范围查询<code>(&gt;、&lt;、between、like</code>左匹配)等就<strong>不能进一步匹配</strong>了，后续退化为线性查找。例子：</p>
+<ul>
+<li>最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式</li>
+</ul>
+<h4 id="索引的优点"><a href="#索引的优点" class="headerlink" title="索引的优点"></a>索引的优点</h4><ul>
+<li>大大加快数据的检索速度，这也是创建索引的最主要的原因；</li>
+<li>加速表和表之间的连接；</li>
+<li>在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间；</li>
+<li>通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性；</li>
+</ul>
+<h4 id="索引的缺点"><a href="#索引的缺点" class="headerlink" title="索引的缺点"></a>索引的缺点</h4><ul>
+<li>时间方面：创建索引和维护索引要耗费时间，具体地，当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度；</li>
+<li>空间方面：索引需要占物理空间。</li>
+</ul>
+<h4 id="设置了索引但是无法使用？"><a href="#设置了索引但是无法使用？" class="headerlink" title="设置了索引但是无法使用？"></a>设置了索引但是无法使用？</h4><ul>
+<li>以“%(表示任意0个或多个字符)”开头的LIKE语句，模糊匹配；</li>
+<li>OR语句前后没有同时使用索引；</li>
+<li>数据类型出现隐式转化（如varchar不加单引号的话可能会自动转换为int型）；</li>
+<li>对于多列索引，必须满足 最左匹配原则 (eg：多列索引col1、col2和col3，则 索引生效的情形包括 col1或col1，col2或col1，col2，col3)。</li>
+</ul>
+<h4 id="什么样的字段适合创建索引？"><a href="#什么样的字段适合创建索引？" class="headerlink" title="什么样的字段适合创建索引？"></a>什么样的字段适合创建索引？</h4><ul>
+<li>经常作查询选择的字段</li>
+<li>经常作表连接的字段</li>
+<li>经常出现在order by, group by, distinct 后面的字段</li>
+</ul>
+<h4 id="创建索引时需要注意什么？"><a href="#创建索引时需要注意什么？" class="headerlink" title="创建索引时需要注意什么？"></a>创建索引时需要注意什么？</h4><ul>
+<li><strong>非空字段</strong>：应该指定列为NOT NULL，除非你想存储NULL。在mysql中，含有空值的列很难进行查询优化，因为它们使得索引、索引的统计信息以及比较运算更加复杂。你应该用0、一个特殊的值或者一个空串代替空值；</li>
+<li><strong>取值离散大的字段</strong>：（变量各个取值之间的差异程度）的列放到联合索引的前面，可以通过count()函数查看字段的差异值，返回值越大说明字段的唯一值越多字段的离散程度高；</li>
+<li><strong>索引字段越小越好</strong>：数据库的数据存储以页为单位一页存储的数据越多一次IO操作获取的数据越大效率越高。</li>
+</ul>
+<h3 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h3><p>事务是一个不可分割的数据库操作序列，也是数据库并发控制的基本单位，其执行的结果必须使数据库从一种一致性状态变到另一种一致性状态。以BEGIN;或者START TRANSACTION;显式的开启一个事务。</p>
+<h4 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h4><ul>
+<li>脏读：一个事务读取了另一个事务未提交的数据；</li>
+<li>不可重复读：不可重复读的重点是修改，同样条件下两次读取结果不同。被读取的数据可以被其他事务修改。</li>
+<li>幻读：幻读的重点在于新增或者删除，同样条件下两次读出来的记录数不一样。</li>
+</ul>
+<h4 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h4><p>隔离级别决定了一个session中的事务可能对另一个session中的事务的影响。ANSI标准定义了4个隔离级别，MySQL的InnoDB都支持，分别是：</p>
+<ul>
+<li><font color="red">READ UNCOMMITTED</font>(读未提交):最低级别的隔离，通常又称为dirty read，它允许一个事务读取另一个事务还没commit的数据，这样可能会提高性能，但是会导致脏读问题；</li>
+<li><font color="red">READ COMMITTED</font>(读已提交):在一个事务中只允许对其它事务已经commit的记录可见，该隔离级别不能避免不可重复读问题；</li>
+<li><font color="red">REPEATABLE READ</font>(可重复读):在一个事务开始后，其他事务对数据库的修改在本事务中不可见，直到本事务commit或rollback。但是，其他事务的insert/delete操作对该事务是可见的，也就是说，该隔离级别并不能避免幻读问题。在一个事务中重复select的结果一样，除非本事务中update数据库。</li>
+<li><font color="red">SERIALIZABLE</font>(串行化):最高级别的隔离，只允许事务串行执行。<br>MySQL默认的隔离级别是REPEATABLE READ。</li>
+</ul>
+<h3 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h3><h4 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h4><p>是 MySQL 默认的事务型存储引擎，实现了四个标准的隔离级别，默认级别是可重复读（REPEATABLE READ），主索引是聚簇索引，在索引中保存了数据。如果有大量的update和insert，建议使用InnoDB，特别是针对多个并发和QPS较高的情况。</p>
+<p>内部做了很多优化，包括从磁盘读取数据时采用的可预测性读、能够加快读操作并且自动创建的自适应哈希索引、能够加速插入操作的插入缓冲区等。</p>
+<p>支持真正的在线热备份。其它存储引擎不支持在线热备份，要获取一致性视图需要停止对所有表的写入，而在读写混合场景中，停止写入可能也意味着停止读取。</p>
+<h4 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h4><p>B+Tree叶节点的data域存放的是数据记录的地址。在索引检索的时候，首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其 data 域的值，然后以 data 域的值为地址读取相应的数据记录。<strong>data域存的是地址</strong></p>
+<p>提供了大量的特性，包括压缩表、空间数据索引等。MyISAM占的内存小。</p>
+<p>不支持事务，不支持行级锁，只能对整张表加锁，读取时会对需要读到的所有表加共享锁，写入时则对表加排它锁。</p>
+<p>MyISAM做查询时比较快。</p>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><ul>
+<li>事务：InnoDB 是事务型的，可以使用 Commit 和 Rollback 语句。</li>
+<li>并发：MyISAM 只支持表级锁，而 InnoDB 还支持行级锁。</li>
+<li>外键：InnoDB 支持外键。</li>
+<li>备份：InnoDB 支持在线热备份。</li>
+<li>崩溃恢复：MyISAM 崩溃后发生损坏的概率比 InnoDB 高很多，而且恢复的速度也更慢。</li>
+<li>其它特性：MyISAM 支持压缩表和空间数据索引。</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><h5 id="行级锁，表级锁，页级锁"><a href="#行级锁，表级锁，页级锁" class="headerlink" title="行级锁，表级锁，页级锁"></a>行级锁，表级锁，页级锁</h5><ul>
+<li>表级，直接锁定整张表，在你锁定期间，其它进程无法对该表进行写操作。如果你是写锁，则其它进程则读也不允许</li>
+<li>行级，仅对指定的记录进行加锁，这样其它进程还是可以对同一个表中的其它记录进行操作。</li>
+<li>页级，表级锁速度快，但冲突多，行级冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。</li>
+</ul>
+<h5 id="innodb的行锁模式"><a href="#innodb的行锁模式" class="headerlink" title="innodb的行锁模式"></a>innodb的行锁模式</h5><ul>
+<li><p>共享锁（s）：又称读锁。允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。若事务T对数据对象A加上S锁，则事务T可以读A但不能修改A，其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁。这保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</p>
+</li>
+<li><p>排他锁（Ｘ）：又称写锁。允许获取排他锁的事务更新数据，阻止其他事务取得相同的数据集共享读锁和排他写锁。若事务T对数据对象A加上X锁，事务T可以读A也可以修改A，其他事务不能再对A加任何锁，直到T释放A上的锁。</p>
+</li>
+<li><p>意向共享锁（IS）(表锁)：事务打算给数据行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。</p>
+</li>
+<li><p>意向排他锁（IX）(表锁)：事务打算给数据行加排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</p>
+</li>
+<li><p>间隙锁(Next-key)：当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的 索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙（GAP)”，InnoDB也会对这个“间隙”加锁，这种锁机制就是所谓的间隙锁 （Next-Key锁）。<br>举例来说，假如emp表中只有101条记录，其empid的值分别是 1,2,…,100,101，下面的SQL：<br><code>Select * from  emp where empid &gt; 100 for update;</code><br>是一个范围条件的检索，InnoDB不仅会对符合条件的empid值为101的记录加锁，也会对empid大于101（这些记录并不存在）的“间隙”加锁。</p>
+</li>
+</ul>
+<p>  InnoDB使用间隙锁的目的，一方面是为了防止幻读，以满足相关隔离级别的要求，对于上面的例子，要是不使 用间隙锁，如果其他事务插入了empid大于100的任何记录，那么本事务如果再次执行上述语句，就会发生幻读；另外一方面，是为了满足其恢复和复制的需 要。</p>
+<h5 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h5><p><strong>什么是死锁？</strong><br>当两个事务都需要获得对方持有的排他锁才能完成事务，这样就导致了循环锁等待，也就是常见的死锁类型。<br><strong>解决死锁的方法</strong><br>1、  数据库参数<br>2、  应用中尽量约定程序读取表的顺序一样<br>3、  应用中处理一个表时，尽量对处理的顺序排序<br>4、  调整事务隔离级别（避免两个事务同时操作一行不存在的数据，容易发生死锁）</p>
+<h3 id="实践中如何优化MySQL"><a href="#实践中如何优化MySQL" class="headerlink" title="实践中如何优化MySQL"></a>实践中如何优化MySQL</h3><p>实践中，MySQL的优化主要涉及SQL语句及索引的优化，数据表结构的优化，系统配置的优化和硬件的优化四个方面。</p>
+<h4 id="SQL语句的优化"><a href="#SQL语句的优化" class="headerlink" title="SQL语句的优化"></a>SQL语句的优化</h4><p>SQL语句的优化主要包括三个问题，即如何发现有问题的SQL、如何分析SQL的执行计划以及如何优化SQL。</p>
+<ul>
+<li>通过慢查询日志发现有问题的SQL。</li>
+<li><p>通过explain查询和分析SQL的执行计划<br>使用 EXPLAIN 关键字可以知道MySQL是如何处理你的SQL语句的，以便分析查询语句或是表结构的性能瓶颈。通过explain命令可以得到表的读取顺序、数据读取操作的操作类型、哪些索引可以使用、哪些索引被实际使用、表之间的引用以及每张表有多少行被优化器查询等问题。当扩展列extra出现Using filesort和Using temporay，则往往表示SQL需要优化了。</p>
+</li>
+<li><p>Explain 用来分析 SELECT 查询语句，比较重要的字段有：</p>
+<ul>
+<li>select_type : 查询类型，有简单查询、联合查询、子查询等</li>
+<li>key : 使用的索引</li>
+<li>rows : 扫描的行数</li>
+</ul>
+</li>
+<li><p>SQL语句的优化</p>
+<ul>
+<li>优化insert语句：一次插入多值；</li>
+<li>应尽量避免在 where 子句中使用!=或&lt;&gt;操作符，否则将引擎放弃使用索引而进行全表扫描；</li>
+<li>应尽量避免在 where 子句中对字段进行null值判断，否则将导致引擎放弃使用索引而进行全表扫描；</li>
+<li>优化嵌套查询：子查询可以被更有效率的连接(Join)替代；</li>
+<li>很多时候用 exists 代替 in 是一个好的选择。</li>
+<li>只查询必要的列，避免使用<code>SELECT * FROM</code><ul>
+<li>只返回必要的行，使用<code>LIMIT</code>限制返回的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据库表结构的优化"><a href="#数据库表结构的优化" class="headerlink" title="数据库表结构的优化"></a>数据库表结构的优化</h3><p>数据库表结构的优化包括选择合适数据类型、表的范式的优化、表的垂直拆分和表的水平拆分等手段。</p>
+<ol>
+<li>选择合适的数据类型</li>
+</ol>
+<ul>
+<li>使用较小的数据类型解决问题；</li>
+<li>使用简单的数据类型(mysql处理int要比varchar容易)；</li>
+<li>尽可能的使用not null 定义字段；</li>
+<li>尽量避免使用text类型，非用不可时最好考虑分表；</li>
+</ul>
+<ol start="2">
+<li>表的范式的优化<br> 一般情况下，表的设计应遵循三大范式</li>
+<li>表的垂直拆分<br>把含有多个列的表拆分成多个表，解决表宽度问题，具体包括以下几种拆分手段：</li>
+</ol>
+<ul>
+<li>把不常用的字段单独放在同一个表中；</li>
+<li>把大字段独立放入一个表中；</li>
+<li>把经常使用的字段放在一起；</li>
+</ul>
+<ol start="4">
+<li>表的水平拆分<br>表的水平拆分用于解决数据表中数据过大的问题，水平拆分每一个表的结构都是完全一致的。一般地，将数据平分到N张表中的常用方法包括以下两种：</li>
+</ol>
+<ul>
+<li>对ID进行hash运算，如果要拆分成5个表，mod(id,5)取出0~4个值；</li>
+<li>针对不同的hashID将数据存入不同的表中；</li>
+</ul>
+<h3 id="数据库中的悲观锁和乐观锁"><a href="#数据库中的悲观锁和乐观锁" class="headerlink" title="数据库中的悲观锁和乐观锁"></a>数据库中的悲观锁和乐观锁</h3><ol>
+<li><p>悲观锁<br>悲观锁的特点是先获取锁，再进行业务操作，即“悲观”的认为所有的操作均会导致并发安全问题，因此要先确保获取锁成功再进行业务操作。通常来讲，在数据库上的悲观锁需要数据库本身提供支持，即通过常用的select … for update操作来实现悲观锁。当数据库执行select … for update时会获取被select中的数据行的行锁，因此其他并发执行的select … for update如果试图选中同一行则会发生排斥（需要等待行锁被释放），因此达到锁的效果。select for update获取的行锁会在当前事务结束时自动释放，因此必须在事务中使用。</p>
+</li>
+<li><p>乐观锁<br>乐观锁的特点先进行业务操作，只在最后实际更新数据时进行检查数据是否被更新过，若未被更新过，则更新成功；否则，失败重试。乐观锁在数据库上的实现完全是逻辑的，不需要数据库提供特殊的支持。一般的做法是在需要锁的数据上增加一个版本号或者时间戳。</p>
+</li>
+</ol>
+<p>一般情况下，读多写少更适合用乐观锁，读少写多更适合用悲观锁。乐观锁在不发生取锁失败的情况下开销比悲观锁小，但是一旦发生失败回滚开销则比较大，因此适合用在取锁失败概率比较小的场景，可以提升系统并发性能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/" rel="next" title="springmvc中HttpServletRequest与HttpServletResponse详解">
+                <i class="fa fa-chevron-left"></i> springmvc中HttpServletRequest与HttpServletResponse详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关系型数据库与非关系型数据库"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库与非关系型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库范式"><span class="nav-number">2.</span> <span class="nav-text">数据库范式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACID"><span class="nav-number">3.</span> <span class="nav-text">ACID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库索引"><span class="nav-number">4.</span> <span class="nav-text">数据库索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#b-树索引"><span class="nav-number">4.1.</span> <span class="nav-text">b+树索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文索引与hash索引结构"><span class="nav-number">4.2.</span> <span class="nav-text">全文索引与hash索引结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么说B-Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？"><span class="nav-number">4.3.</span> <span class="nav-text">为什么说B+ Tree比B树更适合实际应用中操作系统的文件索引和数据库索引？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件索引和数据库索引为什么使用B-树"><span class="nav-number">4.4.</span> <span class="nav-text">文件索引和数据库索引为什么使用B+树?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最左前缀匹配原则"><span class="nav-number">4.5.</span> <span class="nav-text">最左前缀匹配原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引的优点"><span class="nav-number">4.6.</span> <span class="nav-text">索引的优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引的缺点"><span class="nav-number">4.7.</span> <span class="nav-text">索引的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置了索引但是无法使用？"><span class="nav-number">4.8.</span> <span class="nav-text">设置了索引但是无法使用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么样的字段适合创建索引？"><span class="nav-number">4.9.</span> <span class="nav-text">什么样的字段适合创建索引？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建索引时需要注意什么？"><span class="nav-number">4.10.</span> <span class="nav-text">创建索引时需要注意什么？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库事务"><span class="nav-number">5.</span> <span class="nav-text">数据库事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务并发带来的问题"><span class="nav-number">5.1.</span> <span class="nav-text">事务并发带来的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离级别"><span class="nav-number">5.2.</span> <span class="nav-text">隔离级别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL存储引擎"><span class="nav-number">6.</span> <span class="nav-text">MySQL存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB"><span class="nav-number">6.1.</span> <span class="nav-text">InnoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyISAM"><span class="nav-number">6.2.</span> <span class="nav-text">MyISAM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区别"><span class="nav-number">6.3.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">6.4.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#行级锁，表级锁，页级锁"><span class="nav-number">6.4.1.</span> <span class="nav-text">行级锁，表级锁，页级锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#innodb的行锁模式"><span class="nav-number">6.4.2.</span> <span class="nav-text">innodb的行锁模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#死锁"><span class="nav-number">6.4.3.</span> <span class="nav-text">死锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实践中如何优化MySQL"><span class="nav-number">7.</span> <span class="nav-text">实践中如何优化MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL语句的优化"><span class="nav-number">7.1.</span> <span class="nav-text">SQL语句的优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库表结构的优化"><span class="nav-number">8.</span> <span class="nav-text">数据库表结构的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库中的悲观锁和乐观锁"><span class="nav-number">9.</span> <span class="nav-text">数据库中的悲观锁和乐观锁</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

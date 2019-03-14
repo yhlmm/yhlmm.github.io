@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="springmvc中HttpServletRequest与HttpServletResponse详解除了model,@RequestParam  @PathVariable可以传递参数外，还有HttpServletRequest和HttpServletResponse也可以进行参数传递。web服务器收到一个http请求，会针对每个请求创建一个HttpServletRequest和HttpServ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springmvc中HttpServletRequest与HttpServletResponse详解">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="springmvc中HttpServletRequest与HttpServletResponse详解除了model,@RequestParam  @PathVariable可以传递参数外，还有HttpServletRequest和HttpServletResponse也可以进行参数传递。web服务器收到一个http请求，会针对每个请求创建一个HttpServletRequest和HttpServ">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/1.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/2.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/3.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/4.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/5.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/6.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/7.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/8.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/9.png">
+<meta property="og:updated_time" content="2019-03-11T07:41:21.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springmvc中HttpServletRequest与HttpServletResponse详解">
+<meta name="twitter:description" content="springmvc中HttpServletRequest与HttpServletResponse详解除了model,@RequestParam  @PathVariable可以传递参数外，还有HttpServletRequest和HttpServletResponse也可以进行参数传递。web服务器收到一个http请求，会针对每个请求创建一个HttpServletRequest和HttpServ">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/">
+
+
+
+
+
+  <title>springmvc中HttpServletRequest与HttpServletResponse详解 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">springmvc中HttpServletRequest与HttpServletResponse详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-11T11:42:09+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="springmvc中HttpServletRequest与HttpServletResponse详解"><a href="#springmvc中HttpServletRequest与HttpServletResponse详解" class="headerlink" title="springmvc中HttpServletRequest与HttpServletResponse详解"></a>springmvc中HttpServletRequest与HttpServletResponse详解</h2><p>除了model,@RequestParam  @PathVariable可以传递参数外，还有HttpServletRequest和HttpServletResponse也可以进行参数传递。<br>web服务器收到一个http请求，会针对每个请求创建一个HttpServletRequest和HttpServletResponse对象，向客户端发送数据找HttpServletResponse，从客户端取数据找HttpServletRequest。</p>
+<h4 id="HttpServletRequest"><a href="#HttpServletRequest" class="headerlink" title="HttpServletRequest"></a>HttpServletRequest</h4><p>HttpServletRequest对象代表客户端的请求，当客户端通过HTTP协议访问服务器时，HTTP请求头中的所有信息都封装在这个对象中，开发人员通过这个对象的方法，可以获得客户这些信息。<br><strong>主要功能：参数解析，Cookie读取，http请求字段，文件上传</strong></p>
+<ol>
+<li><p>请求行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">getMethod();获得请求方式</span><br><span class="line">getQueryString();返回请求行中的参数部分</span><br><span class="line">getRequestURI();返回请求行中的资源名部分</span><br><span class="line">getRequestURL();返回客户端请求发出请求时的完整URL</span><br></pre></td></tr></table></figure>
+<p>例子:<br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/1.png" alt="1"><br>页面输出：<br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/2.png" alt="2"></p>
+</li>
+<li><p>请求消息头</p>
+<blockquote>
+<p>String getHeader(String name) 根据请求消息头名称称得到请求消息头信息值<br>Enumeration getHeaderNames() 得到所有请求消息头名称<br>Enumeration getHeaders(String name) 根据头名称得到相同名称请求头信息值<br>String getCookies() 获取请求消息头中的cookie值</p>
+</blockquote>
+</li>
+</ol>
+<p>例子：<img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/3.png" alt="3"><br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/4.png" alt="4"></p>
+<p>通过这种方法来获取请求的一系列信息，比如通过user-agent来判断用户是通过手机还是电脑来登陆页面，从而实现相对应的跳转。</p>
+<ul>
+<li><strong>获取cookie值</strong><br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/5.png" alt="5"><br>页面结果：<br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/6.png" alt="6"></li>
+</ul>
+<ol start="3">
+<li>获得客户机请求参数(客户端提交的数据)<blockquote>
+<p>getParameter(name)方法 获取请求中的参数，该参数是由name指定<br>getParameterValues（String name）方法 获取指定名称参数的所有值数组。它适用于一个参数名对应多个值的情况。如页面表单中的复选框，多选列表提交的值。<br>getParameterNames() 方法返回一个包含请求消息中的所有参数名的Enumeration对象。通过遍历这个Enumeration对象，就可以获取请求消息中所有的参数名。<br>getCharacterEncoding() 返回请求的字符编码方式<br>getAttributeNames()返回当前请求的所有属性的名字集合赋值:setAttribute()<br>getAttribute(String name) 返回name指定的属性值<br>getsession()返回和客户端相关的session，如果没有给客户端分配session，则返回null<br>getParameterMap():返回一个保存了请求消息中的所有参数名和值的Map对象。Map对象的key是字符串类型的参数名，value是这个参数所对应的Object类型的值数组<br>RequestDispatcher.forward() 方法的请求转发过程结束后，浏览器地址栏保持初始的URL地址不变。方法在服务器端内部将请求转发给另外一个资源，浏览器只知道发出了请求并得到了响应结果，并不知道在服务器程序内部发生了转发行为。<br>setCharacterEncoding(“utf-8”);<br>getReader() 获取请求体的数据流<br>getInputStream() 获取请求的输入流中的数据</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="HttpServletResponse"><a href="#HttpServletResponse" class="headerlink" title="HttpServletResponse"></a>HttpServletResponse</h4><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。<br><strong>主要功能:页面内容返回，cookie下发,Http字段设置，headers</strong></p>
+<ol>
+<li><p><strong>响应行</strong></p>
+<blockquote>
+<p>setStatus(int sc) 设置响应状态码</p>
+</blockquote>
+</li>
+</ol>
+<p>响应状态码：200=服务器端OK<br>404=NOT FOUND 请求资源不存在<br>500=服务器端代码错误<br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/7.png" alt="7"><br>页面显示：<br><img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/8.png" alt="8"><br>但我们通过Restlet Client看其HTTP状态，为404</p>
+<ol start="2">
+<li><p><strong>响应头</strong></p>
+<blockquote>
+<p>setHeader(String name,String value) //设置响应头信息<br>sendRedirect(String location) //请求重定向<br>addHeader(String name,String value) //增加相应头信息<br>addCookie(Cookie cookie) //添加Cookie</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"content-type"</span>, <span class="string">"text/html;charset=UTF-8"</span>);   <span class="comment">//告知浏览器使用什么码表</span></span><br><span class="line"><span class="comment">//告知客户端不缓存</span></span><br><span class="line">response.setHeader(<span class="string">"pragma"</span>, <span class="string">"no-cache"</span>);</span><br><span class="line">response.setHeader(<span class="string">"cache-control"</span>, <span class="string">"no-cache"</span>);</span><br><span class="line">response.setDateHeader(<span class="string">"expires"</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//添加Cookie</span></span><br><span class="line">response.addCookie(<span class="keyword">new</span> Cookie(String name ,String value))</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p><strong>响应正文(主体)</strong></p>
+<blockquote>
+<p>getWrite(); // 字符输出流<br> getOutputStream(); //字节输出流<br> setCharacterEncoding(String charset) //告知服务器使用什么编码<br> setContentType(String type)</p>
+</blockquote>
+</li>
+</ol>
+<p>比如我们可以通过getOutputStream();返回图片，验证码等信息</p>
+<ol start="4">
+<li><p><strong>请求重定向</strong></p>
+<blockquote>
+<p>response.sendRedirect（）//请求重定向，让客户端去访问另一个服务器</p>
+</blockquote>
+<p> 例子：<br> <img src="/2019/03/11/springmvc中HttpServletRequest与HttpServletResponse详解/9.png" alt="9"><br>页面输出:hahah</p>
+</li>
+</ol>
+<p>PS:<br>一个web资源收到客户端请求后，通知服务器去调用另外一个web资源进行处理，称之为转发 /307<br>一个web资源收到客户端请求后，通知浏览器去访问另外一个web资源进行处理，称之为重定向/302</p>
+<p><a href="https://blog.csdn.net/lee18254290736/article/details/80948782" target="_blank" rel="noopener">参考链接</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/07/JVM及垃圾回收/" rel="next" title="JVM内存模型及内存分区">
+                <i class="fa fa-chevron-left"></i> JVM内存模型及内存分区
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/11/数据库知识点/" rel="prev" title="数据库知识点">
+                数据库知识点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#springmvc中HttpServletRequest与HttpServletResponse详解"><span class="nav-number">1.</span> <span class="nav-text">springmvc中HttpServletRequest与HttpServletResponse详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpServletRequest"><span class="nav-number">1.0.1.</span> <span class="nav-text">HttpServletRequest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpServletResponse"><span class="nav-number">1.0.2.</span> <span class="nav-text">HttpServletResponse</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
