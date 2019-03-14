@@ -86,12 +86,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="JVM及垃圾回收java内存区域Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png">
-<meta property="og:updated_time" content="2019-03-14T08:14:05.803Z">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM以及垃圾回收/1.png">
+<meta property="og:updated_time" content="2019-03-14T08:19:13.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM内存模型及内存分区">
 <meta name="twitter:description" content="JVM及垃圾回收java内存区域Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数">
-<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM以及垃圾回收/1.png">
 
 
 
@@ -302,7 +302,7 @@
 
       
         <a id="more"></a>
-<h2 id="JVM及垃圾回收"><a href="#JVM及垃圾回收" class="headerlink" title="JVM及垃圾回收"></a>JVM及垃圾回收</h2><h3 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h3><p><img src="/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png" alt="1"><br>Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。</p>
+<h2 id="JVM及垃圾回收"><a href="#JVM及垃圾回收" class="headerlink" title="JVM及垃圾回收"></a>JVM及垃圾回收</h2><h3 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h3><p><img src="/2019/03/07/jvm以及垃圾回收/JVM以及垃圾回收/1.png" alt="1"><br>Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。</p>
 <ul>
 <li>方法区(Method Area)<br>  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数据，根据java虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。<strong>方法区中存在一个运行时常量池</strong>（Runtime Constant Pool）的区域，它主要用于存放编译器生成的各种字<br>  面量和和符号引用，这些内容将在类加载后存放到运行时常量池中，以便后续使用。<ul>
 <li>存放虚拟机加载的类信息，常量，静态变量,(即时编译器编译后的代码)</li>
