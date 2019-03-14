@@ -82,16 +82,16 @@
 <meta name="description" content="JVM及垃圾回收java内存区域Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM内存模型及内存分区">
-<meta property="og:url" content="http://www.flydoge.cn/2019/03/07/JVM内存模型及内存分区/index.html">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="JVM及垃圾回收java内存区域Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://www.flydoge.cn/2019/03/07/JVM内存模型及内存分区/JVM及垃圾回收/1.png">
-<meta property="og:updated_time" content="2019-03-14T07:33:28.247Z">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png">
+<meta property="og:updated_time" content="2019-03-14T08:14:05.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM内存模型及内存分区">
 <meta name="twitter:description" content="JVM及垃圾回收java内存区域Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。  方法区(Method Area)  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数">
-<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/07/JVM内存模型及内存分区/JVM及垃圾回收/1.png">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png">
 
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://www.flydoge.cn/2019/03/07/JVM内存模型及内存分区/">
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/">
 
 
 
@@ -234,7 +234,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/07/JVM内存模型及内存分区/">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/07/jvm以及垃圾回收/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="flydog">
@@ -302,7 +302,7 @@
 
       
         <a id="more"></a>
-<h2 id="JVM及垃圾回收"><a href="#JVM及垃圾回收" class="headerlink" title="JVM及垃圾回收"></a>JVM及垃圾回收</h2><h3 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h3><p><img src="/2019/03/07/JVM内存模型及内存分区/JVM及垃圾回收/1.png" alt="1"><br>Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。</p>
+<h2 id="JVM及垃圾回收"><a href="#JVM及垃圾回收" class="headerlink" title="JVM及垃圾回收"></a>JVM及垃圾回收</h2><h3 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h3><p><img src="/2019/03/07/jvm以及垃圾回收/JVM及垃圾回收/1.png" alt="1"><br>Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。</p>
 <ul>
 <li>方法区(Method Area)<br>  方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码数据，根据java虚拟机规范的规定，当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常。<strong>方法区中存在一个运行时常量池</strong>（Runtime Constant Pool）的区域，它主要用于存放编译器生成的各种字<br>  面量和和符号引用，这些内容将在类加载后存放到运行时常量池中，以便后续使用。<ul>
 <li>存放虚拟机加载的类信息，常量，静态变量,(即时编译器编译后的代码)</li>
@@ -431,13 +431,13 @@
 <li>空间整理 （标记整理算法，复制算法）</li>
 <li><p>可预测的停顿（G1处处理追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确    指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒，这几乎已经实现    Java（RTSJ）的来及收集器的特征）</p>
 <p>使用G1收集器时，Java堆的内存布局是整个规划为多个大小相等的独立区域（Region）,虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了，它们都是一部分Region的集合。</p>
+</li>
+</ul>
 <p>G1收集器的运作大致可划分为一下步骤：</p>
 <p>（1）初始标记</p>
 <p>（2）并发标记</p>
 <p>（3）最终标记</p>
 <p>（4）筛选回收</p>
-</li>
-</ul>
 </li>
 </ul>
 
@@ -464,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/07/JVM及垃圾回收/" rel="next" title="JVM内存模型及内存分区">
-                <i class="fa fa-chevron-left"></i> JVM内存模型及内存分区
+              <a href="/2019/03/06/本博客的搭建/" rel="next" title="establsh">
+                <i class="fa fa-chevron-left"></i> establsh
               </a>
             
           </div>
@@ -553,7 +553,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
