@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="进程、线程、程序 线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。线程是独立运行和独立调度的单位。 程序是含有指令和数据的文件，被存储在磁盘或其他的数据存储设备中，也就是说程序是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/14/操作系统/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="进程、线程、程序 线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。线程是独立运行和独立调度的单位。 程序是含有指令和数据的文件，被存储在磁盘或其他的数据存储设备中，也就是说程序是">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/14/操作系统/1.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/14/操作系统/2.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/14/操作系统/3.png">
+<meta property="og:updated_time" content="2019-03-18T13:00:03.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统">
+<meta name="twitter:description" content="进程、线程、程序 线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。线程是独立运行和独立调度的单位。 程序是含有指令和数据的文件，被存储在磁盘或其他的数据存储设备中，也就是说程序是">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/14/操作系统/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/14/操作系统/">
+
+
+
+
+
+  <title>操作系统 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/14/操作系统/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-14T17:00:01+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="进程、线程、程序"><a href="#进程、线程、程序" class="headerlink" title="进程、线程、程序"></a>进程、线程、程序</h2><ul>
+<li><strong>线程</strong>与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。线程是独立运行和独立调度的单位。</li>
+<li><strong>程序</strong>是含有指令和数据的文件，被存储在磁盘或其他的数据存储设备中，也就是说程序是静态的代码</li>
+<li><strong>进程</strong>是程序的一次执行过程，是资源分配的基本单位</li>
+</ul>
+<h2 id="进程的几种状态"><a href="#进程的几种状态" class="headerlink" title="进程的几种状态"></a>进程的几种状态</h2><ul>
+<li><p><strong>创建状态</strong>：进程在创建时需要申请一个空白PCB(进程控制块)，向其中填写控制和管理进程的信息，完成资源分配。如果创建工作无法完成，比如资源无法满足，就无法被调度运行，把此时进程所处状态称为创建状态</p>
+</li>
+<li><p><strong>就绪状态</strong>：进程已经准备好，已分配到所需资源，只要分配到CPU就能够立即运行</p>
+</li>
+<li><p><strong>执行状态</strong>：进程处于就绪状态被调度后，进程进入执行状态</p>
+</li>
+<li><p><strong>阻塞状态</strong>：正在执行的进程由于某些事件（I/O请求，申请缓存区失败）而暂时无法运行，进程受到阻塞。在满足请求时进入就绪状态等待系统调用</p>
+</li>
+<li><p><strong>终止状态</strong>：进程结束，或出现错误，或被系统终止，进入终止状态。无法再执行。</p>
+</li>
+</ul>
+<h2 id="如何创建进程"><a href="#如何创建进程" class="headerlink" title="如何创建进程"></a>如何创建进程</h2><ul>
+<li>system函数，运行义字符传参数的形式传递给它的命令，他会在一个进程的内部启动另一个进程，并等待命令的完成</li>
+<li>exec系列函数，可以把当前进程替换为一个新进程，新进程的PID、PPID和nice都和原来的一样，只是用另一个新进程替换了当前进程的征文、数据、堆和栈</li>
+<li>fork函数，返回的是新子进程的PID，子进程从fork调用出执行，在子进程中fork调用返回的是0。fork函数得到的子进程从父进程继承了整个进程空间。fork系统调用之后，父子进程交替执行，如果父进程先退出，子进程还没退出–<strong>孤儿进程</strong>，子进程的父进程将变为<strong>init进程</strong>；如果子进程先退出，父进程还没退出，那么子进程必须等到父进程捕获到了子进程的退出状态才真正结束，否则这个时候子进程就成为<strong>僵尸进程</strong></li>
+</ul>
+<h3 id="fork函数创建新进程"><a href="#fork函数创建新进程" class="headerlink" title="fork函数创建新进程"></a>fork函数创建新进程</h3><p>init进程将系统启动后，init将成为此后所有进程的祖先，此后的进程都是直接或间接从init进程“复制”而来。完成该“复制”功能的函数有fork()。<br>一个进程（父进程）调用fork()函数后将会把自己复制一份，而这个被复制出来的新进程称为子进程，就这么简单地完成了新进程的创建。fork函数几乎完整地复制了父进程，除了几个特殊的方面外（至少pid不一样吧，具体的查看这里有一个完整的列表）<br><strong>创建子进程：</strong>以父进程为模板，父子进程代码段相同，但数据不同，fork的返回值起到分流的作用，用户通过fork的返回值来判断哪个是子进程，哪个是父进程。<br>fork之后，父子进程谁先运行，由调度器决定，父子进程分别独立自己的，执行自己的任务。</p>
+<ol>
+<li>什么是父进程，什么是子进程？<br>除了0号进程(系统创建的)外，linux系统中都是由其他进程创建的。创建新进程的进程，即调用fork函数的进程为父进程，新建的进程为子进程。</li>
+<li>fork函数不需要任何参数，对于返回值有三种情况</li>
+</ol>
+<ul>
+<li>对于父进程，fork函数返回新建子进程的pid</li>
+<li>对于子进程，fork函数返回0</li>
+<li>如果出错，fork函数返回-1</li>
+</ul>
+<p><img src="/2019/03/14/操作系统/1.png" alt="1"><br>打印结果：<br><img src="/2019/03/14/操作系统/2.png" alt="2"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getpid()             <span class="comment">//获取进程pid</span></span><br><span class="line">getppid()            <span class="comment">//获取父进程pid</span></span><br></pre></td></tr></table></figure>
+<h3 id="fork之后内核的做法："><a href="#fork之后内核的做法：" class="headerlink" title="fork之后内核的做法："></a>fork之后内核的做法：</h3><ol>
+<li>分配新的内存块和内核数据给子进程</li>
+<li>将父进程与子进程的部分数据内容拷贝到子进程中</li>
+<li>添加子进程到系统的进程的列表中</li>
+<li>fork返回，开始调度</li>
+</ol>
+<p>fork函数将复制父进程的地址空间给子进程，但为了提高效率，复制过程并不会真正的进行物理内存的完整复制，而是采用“写拷贝（copy-on-write）”技术让父子进程尽可能地长久地共享该物理内存，仅仅是复制内存页入口地址并标记写拷贝对应的页面，当修改真正发生时才真正复制。</p>
+<p><strong>子进程是完全复制父进程的，所以num的地址是一样的，可是子进程复制的是虚拟地址空间，而非物理空间。如果，子进程和父进程对变量只读，也就是说变量不会被改变，这时候，变量表现为共享的,此时物理空间只有一份。如果说父进程或者子进程需要改变变量，那么进程将会对物理内存进行复制，这个时候变量是独立的，也就是说，物理内存中存在两份空间。</strong></p>
+<h2 id="COW-copy-on-write"><a href="#COW-copy-on-write" class="headerlink" title="COW(copy-on-write)"></a>COW(copy-on-write)</h2><p>传统的fork调用直接把所有的资源复制给新创建的进程，但是子进程可能并不需要这些资源导致效率低下。LInux采用了写时复制优化，可以退出甚至免除拷贝数据，创建子进程时并不复制整个父进程空间，而是让子进程共享父进程的数据，只有在需要写入的时候，数据才会被复制，从而使各个进程拥有自己的拷贝。也就是说，<strong>资源的复制只有在需要写入的时候才进行，在此之前，只是以只读方式共享。这种技术使地址空间上的页的拷贝被推迟到实际发生写入的时候</strong></p>
+<h2 id="进程间通信方式"><a href="#进程间通信方式" class="headerlink" title="进程间通信方式"></a>进程间通信方式</h2><ol>
+<li><strong>管道</strong><br>管道允许在进程之间按先进先出的方式传送数据，是进程间通信的一种常见方式。提供面向字节流的通信，管道内部提供了同步机制。<br><strong>流管道s_pipe:</strong> 去除了第一种限制,可以双向传输。<strong>命名管道:</strong>name_pipe克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信（不具有亲缘关系的进程可以根据管道的全路径名获取到管道文件）；<br><strong>管道的特点：</strong></li>
+</ol>
+<ul>
+<li>管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道。</li>
+<li>无名管道只能用于父子进程或者兄弟进程之间(具有亲缘关系的进程)</li>
+<li>管道对于管道两端的进程而言，就是一个文件，对它的读写也可以用普通的read和write。但它不是普通的文件，它不属于某种文件系统，单独构成一种文件系统，并且只存在内存当中。</li>
+</ul>
+<p><img src="/2019/03/14/操作系统/3.png" alt="3"><br>管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据：管道一端的进程顺序地将进程数据写入缓冲区，另一端的进程则顺序地读取数据，该缓冲区可以看做一个循环队列，读和写的位置都是自动增加的，一个数据只能被读一次，读出以后再缓冲区都不复存在了。当缓冲区读空或者写满时，有一定的规则控制相应的读进程或写进程是否进入等待队列，当空的缓冲区有新数据写入或慢的缓冲区有数据读出时，就唤醒等待队列中的进程继续读写。</p>
+<blockquote>
+<p>如果所有指向管道写端的文件描述符都关闭了,而仍然有进程从管道的读端读数据,那么管道中剩余的数据都被读取后,再次read会返回0,就像读到文件末尾一样</p>
+<p>如果有指向管道写端的文件描述符没关闭，而持有管道写端的进程也没有向管道中写数据,这时有进程从管道读端读数据,那么管道中剩余的数据都被读取后,再次read会阻塞,直到管道中有数据可读了才读取数据并返回。</p>
+<p>如果所有指向管道读端的文件描述符都关闭了,这时有进程指向管道的写端write,那么该进程会收到信号SIGPIPE,通常会导致进程异常终止。</p>
+<p>如果有指向管道读端的文件描述符没关闭,而持有管道写端的进程也没有从管道中读数据,这时有进程向管道写端写数据,那么在管道被写满时再write会阻塞,直到管道中有空位置了才写入数据并返回。</p>
+</blockquote>
+<ol start="2">
+<li><p><strong>信号量</strong><br>信号量本质上是一个计数器。用于多进程对共享数据对象的读取，它和管道有所不同，它不以传送数据为主要目的，它主要是用来保护共享资源（信号量也属于临界资源），使得资源在一个时刻只有一个进程独享。信号量用于实现进程间的互斥与同步，而不是用于存储进程间通信数据。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。<br><strong>信号量的工作原理</strong><br>由于信号量只能进行两种操作等待和发送信号，即P(sv)和V(sv),他们的行为是这样的：<br>（1）P(sv)：如果sv的值大于零，就给它减1；如果它的值为零，就挂起该进程的执行<br>（2）V(sv)：如果有其他进程因等待sv而被挂起，就让它恢复运行，如果没有进程因等待sv而挂起，就给它加1.<br>在信号量进行PV操作时都为原子操作（因为它需要保护临界资源）<br>注：原子操作：单指令的操作称为原子的，单条指令的执行是不会被打断的</p>
+</li>
+<li><p><strong>消息队列</strong><br>消息队列由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。<br>用户进程可以向消息队列添加消息，也可以向消息队列读取消息。</p>
+</li>
+</ol>
+<ul>
+<li><strong>消息队列的特点：</strong><ul>
+<li>消息队列是面向记录的，其中的消息具有特定的格式以及特定的优先级。</li>
+<li>消息队列独立于发送与接收进程。进程终止时，消息队列及其内容并不会被删除。</li>
+<li>消息队列可以实现消息的随机查询，消息不一定要以先进先出的次序读取，也可以按消息的类型读取。</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li><p><strong>信号</strong><br>用于通知接收进程某个事件已经发生，主要作为进程间以及同一进程不同线程之间的同步手段。<br>信号可以在任何时候发送给某一进程，而无须知道该进程的状态。如果该进程并未处于执行状态，则该信号就由内核保存起来，知道该进程恢复执行并传递给他为止。如果一个信号被进程设置为阻塞，则该信号的传递被延迟，直到其阻塞被取消时才被传递给进程。<br> 信号是在软件层次上对中断机制的一种模拟，是一种异步通信方式，信号可以在用户空间进程和内核之间直接交互。内核也可以利用信号来通知用户空间的进程来通知用户空间发生了哪些系统事件。信号事件来源有硬件来源和软件来源。<br> 一旦有信号产生，用户进程对信号产生的相应有三种方式：</p>
+<ul>
+<li>执行默认操作，linux对每种信号都规定了默认操作。</li>
+<li>捕捉信号，定义信号处理函数，当信号发生时，执行相应的处理函数。</li>
+<li>忽略信号，当不希望接收到的信号对进程的执行产生影响，而让进程继续执行时，可以忽略该信号，即不对信号进程作任何处理。</li>
+</ul>
+</li>
+<li><p><strong>共享内存</strong><br>共享内存，指两个或多个进程共享一个给定的存储区。这一段存储区可以被两个或两个以上的进程映射至自身的地址空间中，一个进程写入共享内存的信息，可以被其他使用这个共享内存的进程，通过一个简单的内存读取操作读出，从而实现了进程间的通信。<br>采用共享内存进行通信的一个主要好处是效率高，因为进程可以直接读写内存，而不需要任何数据的拷贝，对于像管道和消息队列等通信方式，则需要再内核和用户空间进行四次的数据拷贝，而共享内存则只拷贝两次：一次从输入文件到共享内存区，另一次从共享内存到输出文件。<br>一般而言，进程之间在共享内存时，并不总是读写少量数据后就解除映射，有新的通信时在重新建立共享内存区域；而是保持共享区域，直到通信完毕为止，这样，数据内容一直保存在共享内存中，并没有写回文件。共享内存中的内容往往是在解除映射时才写回文件，因此，采用共享内存的通信方式效率非常高。</p>
+</li>
+</ol>
+<h2 id="产生死锁的条件和解决办法"><a href="#产生死锁的条件和解决办法" class="headerlink" title="产生死锁的条件和解决办法"></a>产生死锁的条件和解决办法</h2><p>4个条件：互斥、非抢占、持有并等待、循环等待<br>解决方法：鸵鸟策略、死锁检测和死锁恢复、死锁预防（破坏是个条件中的一个）、死锁避免（银行家算法）</p>
+<p><strong>概念</strong>：多个并发进程因争夺系统资源而产生相互等待的现象。</p>
+<h3 id="死锁产生的4个必要条件"><a href="#死锁产生的4个必要条件" class="headerlink" title="死锁产生的4个必要条件"></a>死锁产生的4个必要条件</h3><ul>
+<li>互斥：某种资源一次只允许一个进程访问，即该资源一旦分配给某个进程，其他进程就不能再访问，直到该进程访问结束。</li>
+<li>占有且等待：一个进程本身占有资源（一种或多种），同时还有资源未得到满足，正在等待其他进程释放该资源。</li>
+<li>不可抢占：别人已经占有了某项资源，你不能因为自己也需要该资源，就去把别人的资源抢过来。</li>
+<li>循环等待：存在一个进程链，使得每个进程都占有下一个进程所需的至少一种资源。</li>
+</ul>
+<p>当以上四个条件均满足，必然会造成死锁，发生死锁的进程无法进行下去，它们所持有的资源也无法释放。这样会导致CPU的吞吐量下降。所以死锁情况是会浪费系统资源和影响计算机的使用性能的。</p>
+<h3 id="死锁避免"><a href="#死锁避免" class="headerlink" title="死锁避免"></a>死锁避免</h3><p>死锁避免是利用额外的检验信息，在分配资源时判断是否会出现死锁，只在不会出现死锁的情况下才分配资源。<br>两种避免办法：<br>    1、如果一个进程的请求会导致死锁，则不启动该进程<br>    2、如果一个进程的增加资源请求会导致死锁 ，则拒绝该申请。</p>
+<p><strong>银行家算法</strong></p>
+<ul>
+<li>可利用资源向量Available：用于表示系统里边各种资源剩余的数目。由于系统里边拥有的资源通常都是有很多种（假设有m种），所以，我们用一个有m个元素的数组来表示各种资源。数组元素的初始值为系统里边所配置的该类全部可用资源的数目，其数值随着该类资源的分配与回收动态地改变。</li>
+<li>最大需求矩阵Max：用于表示各个进程对各种资源的额最大需求量。进程可能会有很多个（假设为n个），那么，我们就可以用一个nxm的矩阵来表示各个进程多各种资源的最大需求量</li>
+<li>分配矩阵Allocation：顾名思义，就是用于表示已经分配给各个进程的各种资源的数目。也是一个nxm的矩阵。</li>
+<li>需求矩阵Need：用于表示进程仍然需要的资源数目，用一个nxm的矩阵表示。系统可能没法一下就满足了某个进程的最大需求（通常进程对资源的最大需求也是只它在整个运行周期中需要的资源数目，并不是每一个时刻都需要这么多），于是，为了进程的执行能够向前推进，通常，系统会先分配个进程一部分资源保证进程能够执行起来。那么，进程的最大需求减去已经分配给进程的数目，就得到了进程仍然需要的资源数目了。</li>
+</ul>
+<p>银行家算法通过对进程需求、占有和系统拥有资源的实时统计，确保系统在分配给进程资源不会造成死锁才会给与分配。<br>死锁避免的优点：不需要死锁预防中的抢占和重新运行进程，并且比死锁预防的限制要少。</p>
+<h3 id="死锁检测与恢复"><a href="#死锁检测与恢复" class="headerlink" title="死锁检测与恢复"></a>死锁检测与恢复</h3><p>如果利用死锁检测算法检测出系统已经出现了死锁 ，那么，此时就需要对系统采取相应的措施。<br>常用的解除死锁的方法：</p>
+<ol>
+<li>抢占资源：从一个或多个进程中抢占足够数量的资源分配给死锁进程，以解除死锁状态。</li>
+<li>终止（或撤销）进程：终止或撤销系统中的一个或多个死锁进程，直至打破死锁状态。</li>
+</ol>
+<ul>
+<li>终止所有的死锁进程。这种方式简单粗暴，但是代价很大，很有可能会导致一些已经运行了很久的进程前功尽弃。</li>
+<li>逐个终止进程，直至死锁状态解除。该方法的代价也很大，因为每终止一个进程就需要使用死锁检测来检测系统当前是否处于死锁状态。另外，每次终止进程的时候终止那个进程呢？每次都应该采用最优策略来选择一个“代价最小”的进程来解除死锁状态。一般根据如下几个方面来决定终止哪个进程：<ul>
+<li>进程的优先级</li>
+<li>进程已运行时间以及运行完成还需要的时间</li>
+<li>进程已占用系统资源</li>
+<li>进程运行完成还需要的资源</li>
+<li>终止进程数目</li>
+<li>进程是交互还是批处理</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/数据库知识点/" rel="next" title="数据库知识点">
+                <i class="fa fa-chevron-left"></i> 数据库知识点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/14/并发/" rel="prev" title="并发">
+                并发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程、线程、程序"><span class="nav-number">1.</span> <span class="nav-text">进程、线程、程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程的几种状态"><span class="nav-number">2.</span> <span class="nav-text">进程的几种状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何创建进程"><span class="nav-number">3.</span> <span class="nav-text">如何创建进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork函数创建新进程"><span class="nav-number">3.1.</span> <span class="nav-text">fork函数创建新进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fork之后内核的做法："><span class="nav-number">3.2.</span> <span class="nav-text">fork之后内核的做法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#COW-copy-on-write"><span class="nav-number">4.</span> <span class="nav-text">COW(copy-on-write)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程间通信方式"><span class="nav-number">5.</span> <span class="nav-text">进程间通信方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生死锁的条件和解决办法"><span class="nav-number">6.</span> <span class="nav-text">产生死锁的条件和解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁产生的4个必要条件"><span class="nav-number">6.1.</span> <span class="nav-text">死锁产生的4个必要条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁避免"><span class="nav-number">6.2.</span> <span class="nav-text">死锁避免</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁检测与恢复"><span class="nav-number">6.3.</span> <span class="nav-text">死锁检测与恢复</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
