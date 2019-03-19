@@ -428,7 +428,13 @@ Mybatis学习Mybatis是一个优秀的基于java持久层框架，内部封装�
         
           
           
-          
+线程的三种写法
+继承自Thread类，重写run方法（单继承）
+继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常）
+继承自Callable接口，重写call方法
+
+Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/03/14/并发/#more" rel="contents">

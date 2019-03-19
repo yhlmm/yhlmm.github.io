@@ -79,14 +79,17 @@
 
 
 
+<meta name="description" content="线程的三种写法 继承自Thread类，重写run方法（单继承） 继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常） 继承自Callable接口，重写call方法  Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发">
 <meta property="og:url" content="http://www.flydoge.cn/2019/03/14/并发/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线程的三种写法 继承自Thread类，重写run方法（单继承） 继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常） 继承自Callable接口，重写call方法  Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-14T09:00:26.898Z">
+<meta property="og:updated_time" content="2019-03-19T02:25:52.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发">
+<meta name="twitter:description" content="线程的三种写法 继承自Thread类，重写run方法（单继承） 继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常） 继承自Callable接口，重写call方法  Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了">
 
 
 
@@ -296,7 +299,131 @@
       
 
       
-        
+        <a id="more"></a>
+<h2 id="线程的三种写法"><a href="#线程的三种写法" class="headerlink" title="线程的三种写法"></a>线程的三种写法</h2><ul>
+<li>继承自Thread类，重写run方法（单继承）</li>
+<li>继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常）</li>
+<li>继承自Callable接口，重写call方法</li>
+</ul>
+<h2 id="Java中线程同步的方式"><a href="#Java中线程同步的方式" class="headerlink" title="Java中线程同步的方式"></a>Java中线程同步的方式</h2><p>java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了该变量的唯一性和准确性。</p>
+<ol>
+<li>同步方法，使用synchronized关键字修饰方法。由于java的每个对象都有一个内置锁，当用此关键字修饰方法时，内置锁会保护整个方法。在调用该方法前，需要获得内置锁，否则就处于阻塞状态。<br> 代码如下：<br> <code>public synchronized void save(){}</code><font color="red">注：synchronized关键字也可以修饰静态方法，此时如果调用该静态类方法，将会锁住整个类。</font></li>
+<li>同步代码块，使用synchronized关键字修饰的代码块。被该关键字修饰的语句块会自动加上内置锁，从而实现同步。<br>代码如下：<br><code>synchronized(object){}</code><font color="red">注：同步是一种高开销的操作，因此应该尽量减少同步内容。通常没有必要同步整个方法，使用synchronized代码块同步关键代码即可</font></li>
+<li>使用特殊域变量volatile修饰的变量实现线程同步</li>
+</ol>
+<ul>
+<li>volatile关键字为域变量的访问提供一种免锁机制</li>
+<li>使用volatile修饰域相当于告诉虚拟机该域可能被其他现象更新</li>
+<li>因此每次使用该域就要重新计算，而不是使用寄存器中的值</li>
+<li>volatile不会提供任何原子操作，它也不能用来修饰final类型的变量</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bank</span> </span>&#123;</span><br><span class="line">            <span class="comment">//需要同步的变量加上volatile</span></span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> account = <span class="number">100</span>;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> account;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//这里不再需要synchronized </span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</span><br><span class="line">                account += money;</span><br><span class="line">            &#125;</span><br><span class="line">        ｝</span><br></pre></td></tr></table></figure>
+<font color="red">注：多线程中的非同步问题主要出现在对域的读写上，如果让域自身避免这个问题，则就不需要修改操作该域的方法。用final域，有锁保护的域和volatile域可以避免非同步的问题</font><br>4. 使用重入锁ReentranLock实现线程同步<br>在javaSE5.0新增了一个java.concurrent包来支持同步。ReentrantLock类可以重入、互斥、实现了Lock接口的锁，它与使用synchronized方法和快具体相同的基本行为和语义，并且扩展了其能力。<br>ReentrantLock类的常用方法有：<br>ReentrantLock():创建一个ReentrantLock实例      lock():获得锁  unlock():释放锁<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bank</span> </span>&#123;</span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">int</span> account = <span class="number">100</span>;</span><br><span class="line">            <span class="comment">//需要声明这个锁</span></span><br><span class="line">            <span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> account;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//这里不再需要synchronized </span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    account += money;</span><br><span class="line">                &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ｝</span><br></pre></td></tr></table></figure><br><br><font color="red">注：关于Lock对象和synchronized关键字的选择：</font><br><font color="red">- 最好两个都不用，使用一种java.util.concurrent包提供的机制，能够帮助用户处理所有与锁相关的代码</font><br><font color="red">- 如果synchronized关键字能满足用户的需求，就用synchronized，因为它能简化代码</font><br><font color="red">- 如果需要更高级的功能，就用ReentrantLock类，此时要注意及时释放锁，否则会出现死锁，通常在finally代码释放锁</font>
+
+<ol start="5">
+<li>使用局部变量ThreadLocal管理变量，通过变量的线程副本实现同步。<br>如果使用ThreadLocal管理变量，则每一个使用变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。<br>ThreadLocal类的常用方法：</li>
+</ol>
+<ul>
+<li>ThreadLocal():创建一个线程本地变量</li>
+<li>get():返回此线程局部变量的当前线程副本中的值</li>
+<li>initialValue():返回此线程局部变量的当前线程的“初始值”</li>
+<li>set(T value):将此线程局部变量的当前线程副本中的值设置为value<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bank</span></span>&#123;</span><br><span class="line">            <span class="comment">//使用ThreadLocal类管理共享变量account</span></span><br><span class="line">            <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;Integer&gt; account = <span class="keyword">new</span> ThreadLocal&lt;Integer&gt;()&#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> Integer <span class="title">initialValue</span><span class="params">()</span></span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(<span class="keyword">int</span> money)</span></span>&#123;</span><br><span class="line">                account.set(account.get()+money);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAccount</span><span class="params">()</span></span>&#123;</span><br><span class="line">                <span class="keyword">return</span> account.get();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<font color="red">注：ThreadLocal与同步机制</font><br><font color="red">- ThreadLocal与同步机制都是为了解决多线程中相同变量的访问冲突问题</font><br><font color="red">- 前者采用以“空间换时间”的方法，后者采用以“时间换空间”的方式</font>
+
+<ol start="6">
+<li>通过阻塞队列实现同步<br>前面5种同步方法都是在底层实现的线程同步，但还是我们在实际开发当中，应当尽量远离底层结构。使用javaSE5.0版本中新增的java.util.concurrent包将有助于简化开发。本小节主要使用LinkedBlockingQueue\&lt;E>来实现线程的同步，LinkedBlocking\&lt;E>来实现线程同步LinkedBlockingQueue\&lt;E>是一个基于已连接节点的，范围任意的blocking queue 队列是先进先出的顺序。<br>LinkedBlockingQueue 类常用方法 ：</li>
+</ol>
+<ul>
+<li>LinkedBlockingQueue() : 创建一个容量为Integer.MAX_VALUE的LinkedBlockingQueue </li>
+<li>put(E e) : 在队尾添加一个元素，如果队列满则阻塞 </li>
+<li>size() : 返回队列中的元素个数 </li>
+<li>take() : 移除并返回队头元素，如果队列空则阻塞 </li>
+</ul>
+<ol start="7">
+<li>通过原子变量实现同步<br>需要使用线程同步的根本原因在于对普通变量的操作不是原子的。</li>
+</ol>
+<p>那么什么是原子操作呢？</p>
+<ul>
+<li>原子操作就是指将读取变量值、修改变量值、保存变量值看成一个整体来操作。即这几种行为要么同时完成，要么都不完成。</li>
+</ul>
+<p>在java的util.concurrent.atomic包中提供了创建了原子类型变量的工具类，使用该类可以简化线程同步。</p>
+<p>其中AtomicInteger 表可以用原子方式更新int的值，可用在应用程序中(如以原子方式增加的计数器)，但不能用于替换Integer；可扩展Number，允许那些处理机遇数字类的工具和实用工具进行统一访问。</p>
+<p>AtomicInteger类常用方法：</p>
+<ul>
+<li>AtomicInteger(int initialValue) : 创建具有给定初始值的新的AtomicInteger</li>
+<li>addAddGet(int dalta) : 以原子方式将给定值与当前值相加</li>
+<li>get() : 获取当前值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bank</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> AtomicInteger account = <span class="keyword">new</span> AtomicInteger(<span class="number">100</span>);</span><br><span class="line">        <span class="function"><span class="keyword">public</span> AtomicInteger <span class="title">getAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> account;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</span><br><span class="line">            account.addAndGet(money);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>线程池首先是创建一些线程，它们的集合称为线程池。使用线程池可以很好的提高性能，线程在启动时即创建大量空闲的线程，程序将一个任务传给线程池，线程池就会启动一条线程来执行这个任务，执行结束以后，该线程不会死亡，而是再次返回线程池中成为空闲状态，等待·执行下一个任务。</p>
+<p><strong>工作机制</strong>：</p>
+<ul>
+<li>在线程池的编程模式下，任务是提交给整个线程池，而不是直接提交给某个线程，线程池在拿到任务后，就在内部寻找是否有空闲的线程，如果有，则将任务交给某个空闲的线程。</li>
+<li>一个线程同时只能执行一个任务，但可以同时向一个线程池提交多个任务。</li>
+</ul>
+<h3 id="线程池的好处"><a href="#线程池的好处" class="headerlink" title="线程池的好处"></a>线程池的好处</h3><p>在开发过程中使用线程池会带来三个好处：</p>
+<ul>
+<li>降低资源的消耗。通过反复利用已创建的线程降低线程创建和销毁造成的消耗；</li>
+<li>提高响应速度。当任务到达时，任务可以不需要等到线程创建就立即执行；</li>
+<li>提高线程的可管理性。</li>
+</ul>
+<h3 id="java中的ThreadPoolExecutor类"><a href="#java中的ThreadPoolExecutor类" class="headerlink" title="java中的ThreadPoolExecutor类"></a>java中的ThreadPoolExecutor类</h3><p>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类，因此如果要透彻地了解Java中的线程池，必须先了解这个类。<br>创建线程池时每个参数的作用</p>
+<ul>
+<li><strong>corePoolSize</strong>：核心池的大小，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务。</li>
+<li><strong>maximumPoolSize</strong>：线程池最大线程数，它表示在线程池中最多能创建多少个线程；</li>
+<li><strong>keepAliveTime</strong>：表示超出corePoolSize数量的线程在空闲多长时间后终止。</li>
+<li><strong>unit</strong>：参数keepAliveTime的时间单位</li>
+<li><strong>workQueue</strong>：一个阻塞队列，用来存储等待执行的任务</li>
+<li><strong>threadFactory</strong>：用于设置创建线程的工厂，可以通过线程工厂给每个创建出来的线程做些更有意义的事情，比如设置daemon和优先级等等</li>
+<li><strong>handler</strong>：表示当拒绝处理任务时的策略，</li>
+</ul>
+<ul>
+<li><p>线程创建规则</p>
+<ul>
+<li>线程数量小于 corePoolSize，直接创建新线程处理新的任务</li>
+<li>线程数量大于等于 corePoolSize，workQueue 未满，则缓存新任务</li>
+<li>线程数量大于等于 corePoolSize，但小于 maximumPoolSize，且 workQueue 已满。则创建新线程处理新任务</li>
+<li>线程数量大于等于 maximumPoolSize，且 workQueue 已满，则使用拒绝策略处理新任务</li>
+</ul>
+</li>
+<li><p>线程池大小估计</p>
+<p>计算密集型：CPU核心数+1，IO密集型：CUP核心数 * 2 + 1</p>
+</li>
+</ul>
+<h2 id="synchronized关键字的原理"><a href="#synchronized关键字的原理" class="headerlink" title="synchronized关键字的原理"></a>synchronized关键字的原理</h2><p><strong>synchronized 同步语句块的实现使用的是 monitorenter 和 monitorexit 指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。</strong> 当执行 monitorenter 指令时，线程试图获取锁也就是获取 monitor(monitor对象存在于每个Java对象的对象头中，synchronized 锁便是通过这种方式获取锁的，也是为什么Java中任意对象可以作为锁的原因) 的持有权.当计数器为0则可以成功获取，获取后将锁计数器设为1也就是加1。相应的在执行 monitorexit 指令后，将锁计数器设为0，表明锁被释放。如果获取对象锁失败，那当前线程就要阻塞等待，直到锁被另外一个线程释放为止。</p>
+<p>synchronized 修饰的方法使用ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法。</p>
+<h2 id="synchronized的优化"><a href="#synchronized的优化" class="headerlink" title="synchronized的优化"></a>synchronized的优化</h2><p>JDK1.6 对锁的实现引入了大量的优化，如偏向锁、轻量级锁、自旋锁、适应性自旋锁、锁消除、锁粗化等技术来减少锁操作的开销。锁主要存在四中状态，依次是：无锁状态、偏向锁状态、轻量级锁状态、重量级锁状态，他们会随着竞争的激烈而逐渐升级。注意锁可以升级不可降级，这种策略是为了提高获得锁和释放锁的效率。</p>
+<h2 id="volatitle关键字"><a href="#volatitle关键字" class="headerlink" title="volatitle关键字"></a>volatitle关键字</h2><p>volatitle保证操作的可见性。无法保证对变量的任何操作都是原子性的，一定程度上可以保证有序性。<br>当一个变量被声明成volatile后，就具备了一下两种特性。</p>
+<ol>
+<li>内存可见性，即当一条线程修改了这个变量的值，新值对于其他线程来说是立即得知的。由于只能保证可见性，在不符合以下两条规则的运算场景中，仍要通过加锁来保证原子性：</li>
+</ol>
+<ul>
+<li>运算结果并不依赖变量的当前值，或者能够确保只有单一的线程修改变量的值</li>
+<li>变量不需要与其他状态变量共同参与不变约束</li>
+</ul>
+<ol start="2">
+<li>禁止指令重排序优化，普通的变量只能保证在该方法的执行过程中所有依赖赋值结果的地方都能得到正确的结果，而不能保证变量赋值操作的顺序与程序代码中的执行顺序一致。</li>
+</ol>
+<h3 id="volatitle的原理和实现机制"><a href="#volatitle的原理和实现机制" class="headerlink" title="volatitle的原理和实现机制"></a>volatitle的原理和实现机制</h3><p>下面我们来探讨一下volatile到底如何保证可见性和禁止指令重排序的。<br>　　下面这段话摘自《深入理解Java虚拟机》：</p>
+<p>　　“观察加入volatile关键字和没有加入volatile关键字时所生成的汇编代码发现，加入volatile关键字时，会多出一个lock前缀指令”</p>
+<p>　　lock前缀指令实际上相当于一个内存屏障（也成内存栅栏），内存屏障会提供3个功能：</p>
+<p>　　1）它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面；即在执行到内存屏障这句指令时，在它前面的操作已经全部完成；</p>
+<p>　　2）它会强制将对缓存的修改操作立即写入主存；</p>
+<p>　　3）如果是写操作，它会导致其他CPU中对应的缓存行无效。</p>
+<h2 id="计算机内存模型"><a href="#计算机内存模型" class="headerlink" title="计算机内存模型"></a>计算机内存模型</h2><p>大家都知道，计算机在执行程序时，每条指令都是在CPU中执行的，而执行指令过程中，势必涉及到数据的读取和写入。由于程序运行过程中的临时数据是存放在主存（物理内存）当中的，这时就存在一个问题，由于CPU执行速度很快，而从内存读取数据和向内存写入数据的过程跟CPU执行指令的速度比起来要慢的多，因此如果任何时候对数据的操作都要通过和内存的交互来进行，会大大降低指令执行的速度。因此在CPU里面就有了高速缓存。</p>
+<p>　　也就是，当程序在运行过程中，会将运算需要的数据从主存复制一份到CPU的高速缓存当中，那么CPU进行计算时就可以直接从它的高速缓存读取数据和向其中写入数据，当运算结束之后，再将高速缓存中的数据刷新到主存当中。举个简单的例子，比如下面的这段代码：</p>
+<blockquote>
+<p>i = i + 1;</p>
+</blockquote>
+<p> 　　当线程执行这个语句时，会先从主存当中读取i的值，然后复制一份到高速缓存当中，然后CPU执行指令对i进行加1操作，然后将数据写入高速缓存，最后将高速缓存中i最新的值刷新到主存当中。</p>
+<p>　　这个代码在单线程中运行是没有任何问题的，但是在多线程中运行就会有问题了。在多核CPU中，每条线程可能运行于不同的CPU中，因此每个线程运行时有自己的高速缓存（对单核CPU来说，其实也会出现这种问题，只不过是以线程调度的形式来分别执行的）。本文我们以多核CPU为例。</p>
+<p>　　比如同时有2个线程执行这段代码，假如初始时i的值为0，那么我们希望两个线程执行完之后i的值变为2。但是事实会是这样吗？</p>
+<p>　　可能存在下面一种情况：初始时，两个线程分别读取i的值存入各自所在的CPU的高速缓存当中，然后线程1进行加1操作，然后把i的最新值1写入到内存。此时线程2的高速缓存当中i的值还是0，进行加1操作之后，i的值为1，然后线程2把i的值写入内存。</p>
+<p>　　最终结果i的值是1，而不是2。这就是著名的缓存一致性问题。通常称这种被多个线程访问的变量为共享变量。</p>
+<p>　　也就是说，如果一个变量在多个CPU中都存在缓存（一般在多线程编程时才会出现），那么就可能存在缓存不一致的问题。</p>
+
       
     </div>
     
@@ -384,8 +511,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -427,6 +563,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的三种写法"><span class="nav-number">1.</span> <span class="nav-text">线程的三种写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中线程同步的方式"><span class="nav-number">2.</span> <span class="nav-text">Java中线程同步的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">3.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的好处"><span class="nav-number">3.2.</span> <span class="nav-text">线程池的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java中的ThreadPoolExecutor类"><span class="nav-number">3.3.</span> <span class="nav-text">java中的ThreadPoolExecutor类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized关键字的原理"><span class="nav-number">4.</span> <span class="nav-text">synchronized关键字的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized的优化"><span class="nav-number">5.</span> <span class="nav-text">synchronized的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatitle关键字"><span class="nav-number">6.</span> <span class="nav-text">volatitle关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#volatitle的原理和实现机制"><span class="nav-number">6.1.</span> <span class="nav-text">volatitle的原理和实现机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机内存模型"><span class="nav-number">7.</span> <span class="nav-text">计算机内存模型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
