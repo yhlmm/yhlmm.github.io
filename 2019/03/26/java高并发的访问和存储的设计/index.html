@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前提准备为了理解并发和同步,需要明白两个重要的概念: 同步和异步同步:同步，可以理解为在执行完一个函数或方法之后，一直等待系统返回值或消息，这时程序是出于阻塞的，只有接收到返回的值或消息后才往下执行其它的命令。异步:执行完函数或方法后，不必阻塞性地等待返回值或消息，只需要向系统委托一个异步过程，那么当系统接收到返回 值或消息时，系统会自动触发委托的异步过程，从而完成一个完整的流程。同步在一定程度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java高并发的访问和存储的设计">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前提准备为了理解并发和同步,需要明白两个重要的概念: 同步和异步同步:同步，可以理解为在执行完一个函数或方法之后，一直等待系统返回值或消息，这时程序是出于阻塞的，只有接收到返回的值或消息后才往下执行其它的命令。异步:执行完函数或方法后，不必阻塞性地等待返回值或消息，只需要向系统委托一个异步过程，那么当系统接收到返回 值或消息时，系统会自动触发委托的异步过程，从而完成一个完整的流程。同步在一定程度">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/E:/blog/blog/source/_posts/java高并发的访问和存储的设计/1.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/E:/blog/blog/source/_posts/java高并发的访问和存储的设计/2.png">
+<meta property="og:updated_time" content="2019-03-26T14:19:32.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java高并发的访问和存储的设计">
+<meta name="twitter:description" content="前提准备为了理解并发和同步,需要明白两个重要的概念: 同步和异步同步:同步，可以理解为在执行完一个函数或方法之后，一直等待系统返回值或消息，这时程序是出于阻塞的，只有接收到返回的值或消息后才往下执行其它的命令。异步:执行完函数或方法后，不必阻塞性地等待返回值或消息，只需要向系统委托一个异步过程，那么当系统接收到返回 值或消息时，系统会自动触发委托的异步过程，从而完成一个完整的流程。同步在一定程度">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/E:/blog/blog/source/_posts/java高并发的访问和存储的设计/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/">
+
+
+
+
+
+  <title>java高并发的访问和存储的设计 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/26/java高并发的访问和存储的设计/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java高并发的访问和存储的设计</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-26T14:39:04+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="前提准备"><a href="#前提准备" class="headerlink" title="前提准备"></a>前提准备</h2><p>为了理解并发和同步,需要明白两个重要的概念:</p>
+<h3 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h3><p><strong>同步</strong>:同步，可以理解为在执行完一个函数或方法之后，一直等待系统返回值或消息，这时程序是出于阻塞的，只有接收到返回的值或消息后才往下执行其它的命令。<br><strong>异步</strong>:执行完函数或方法后，不必阻塞性地等待返回值或消息，只需要向系统委托一个异步过程，那么当系统接收到返回 值或消息时，系统会自动触发委托的异步过程，从而完成一个完整的流程。<br>同步在一定程度上可以看做是单线程，这个线程请求一个方法后就待这个方法给他回复，否则他不往下执行(死心眼)。<br>异步在一定程度上可以看做是多线程的(废话，一个线程怎么叫异步)，请求一个方法后，就不管了，继续执行其他的方法。</p>
+<h3 id="处理并发和同步"><a href="#处理并发和同步" class="headerlink" title="处理并发和同步"></a>处理并发和同步</h3><p>处理并发和同步的问题的主要是通过锁机制。<br>锁机制有两个层面：</p>
+<ul>
+<li>一种是代码层次上的，如java中的同步锁，典型的就是同步关键字synchronized。</li>
+<li>另外一种是数据库层次上的，比较典型的就是悲观锁和乐观锁。</li>
+</ul>
+<h2 id="处理高并发、大数据存储的网站技术架构"><a href="#处理高并发、大数据存储的网站技术架构" class="headerlink" title="处理高并发、大数据存储的网站技术架构"></a>处理高并发、大数据存储的网站技术架构</h2><h3 id="应用服务和数据服务分离"><a href="#应用服务和数据服务分离" class="headerlink" title="应用服务和数据服务分离"></a>应用服务和数据服务分离</h3><p>随着网站业务的发展，一台服务器逐渐不能满足需求：性能越来越差，存储空间不足。这是就需要应用和数据分离。</p>
+<p><strong>应用服务器</strong></p>
+<ul>
+<li>处理大量的业务</li>
+<li>需要更快更强的CPU<br><strong>数据库服务器</strong></li>
+<li>需要快速磁盘检索和数据缓存</li>
+<li>需要更快的硬盘和更大的内存<br><strong>文件服务器</strong></li>
+<li>要存大量的用户上传文件</li>
+<li>需要更大的硬盘</li>
+</ul>
+<h3 id="使用缓存改善网站性能"><a href="#使用缓存改善网站性能" class="headerlink" title="使用缓存改善网站性能"></a>使用缓存改善网站性能</h3><p>80%的业务访问集中在20%的数据上。所以如果把这一小部分数据缓存在内存中，可以减少数据库的访问压力，提高整个网站的数据访问速度，改善数据库的写入性能。<br>网站使用的缓存分为两种：</p>
+<ul>
+<li>缓存在应用服务器上的本地缓存</li>
+<li>缓存在专门的分布缓存服务器上的远程缓存。</li>
+</ul>
+<p>本地缓存的访问快一些，但受应用服务器内存限制，缓存数据量有限，远程分布式缓存可以使用集群的方式，部署大内存的服务器作为专门的缓存服务器，理论上做到不受内存容量的限制的缓存服务。</p>
+<h3 id="使用应用服务器集群改善并发处理能力"><a href="#使用应用服务器集群改善并发处理能力" class="headerlink" title="使用应用服务器集群改善并发处理能力"></a>使用应用服务器集群改善并发处理能力</h3><p>使用缓存后，数据访问压力得到有效的缓解，但是单一应用服务器能够处理的请求连接有限，在网站高峰期，应用服务器成为整个网站的瓶颈。<br>使用集群是网站解决高并发，海量数据问题的常用手段。通过负载均衡调度服务器，可将来自用户浏览器的访问请求分发到应用服务器集群中的任何一台服务器上。如果有更多用户，就是集群中加入更多的应用服务器，使应用服务器的负载压力不再成为整个网站的瓶颈。<br><img src="/2019/03/26/java高并发的访问和存储的设计/E:/blog\blog\source\_posts\java高并发的访问和存储的设计\1.png" alt="1"></p>
+<h3 id="数据库读写分离"><a href="#数据库读写分离" class="headerlink" title="数据库读写分离"></a>数据库读写分离</h3><p>网站在使用缓存后，使绝大部分数据操作访问都可以不通过数据库就能完成，但是仍有一部分读操作（缓存访问不命中，缓存过期）和全部的写操作需要访问数据库，在网站的用户达到一定规模后，数据库因为负载压力过高而成为网站的瓶颈。</p>
+<p>目前大部分的主流数据库都提供主从热备功能，通过配置两台数据主从关系，可以将一台数据库服务的数据更新同步到另一台服务器上。网站利用数据库的这一功能，实现数据库的读写分离，从而改善数据库负载压力。<br><img src="/2019/03/26/java高并发的访问和存储的设计/E:/blog\blog\source\_posts\java高并发的访问和存储的设计\2.png" alt="2"></p>
+<p><strong>mysql的主从复制，读写分离</strong><br>当数据库的写压力增加，cache层（如Memcached）只能缓解数据库的读取压力。读写集中在一个数据库上让数据库不堪重负。使用主从复制技术（master-slave模式）来达到读写分离，以提高读写性能和读库的可扩展性。读写分离就是只在主服务器上写，只在从服务器上读，基本原理是让主数据库处理事务性查询，而从数据库处理select查询，数据库复制被用于把事务性查询（增删改）导致的改变更新同步到集群中的从数据库。</p>
+<p>MySQL读写分离提升系统性能：<br>　　1、主从只负责各自的读和写，极大程度缓解X锁和S锁争用。<br>　　2、slave可以配置MyISAM引擎，提升查询性能以及节约系统开销。<br>　　3、master直接写是并发的，slave通过主库发送来的binlog恢复数据是异步的。<br>　　4、slave可以单独设置一些参数来提升其读的性能。<br>　　5、增加冗余，提高可用性。</p>
+<p>实现主从分离可以使用MySQL中间件如：Atlas</p>
+<p>　　MySQL主从复制的原理：数据复制的实际就是Slave从Master获取Binary log文件，然后再本地镜像的执行日志中记录的操作。由于主从复制的过程是异步的，因此Slave和Master之间的数据有可能存在延迟的现象，此时只能保证数据最终的一致性。</p>
+<h2 id="java高并发解决"><a href="#java高并发解决" class="headerlink" title="java高并发解决"></a>java高并发解决</h2><p>之前我将高并发的解决方法误认为是线程或者是队列可以解决，因为高并发的时候是有很多用户在访问，导致出现系统数据不正确、丢失数据现象，所以想到 的是用队列解决，其实队列解决的方式也可以处理，比如我们在竞拍商品、转发评论微博或者是秒杀商品等，同一时间访问量特别大，队列在此起到特别的作用，将 所有请求放入队列，以毫秒计时单位，有序的进行，从而不会出现数据丢失系统数据不正确的情况。</p>
+<p>但作者经过查资料，高并发的解决办法有俩种：<br>一种是使用缓存、另一种是使用生成静态页面；还有就是从最基础的地方优化我们写代码减少不必要的资源浪费：<br>(<br>1.不要频繁的new对象,对于在整个应用中只需要存在一个实例的类使用单例模式.对于String的连接操作,使用StringBuffer或者StringBuilder.对于utility类型的类通过静态方法来访问。</p>
+<ol start="2">
+<li>避免使用错误的方式,如Exception可以控制方法推出,但是Exception要保留stacktrace消耗性能,除非必要不要使用 instanceof做条件判断,尽量使用比的条件判断方式.使用JAVA中效率高的类,比如ArrayList比Vector性能好。<br>)</li>
+</ol>
+<h2 id="常见提高高并发下访问的效率的手段"><a href="#常见提高高并发下访问的效率的手段" class="headerlink" title="常见提高高并发下访问的效率的手段"></a>常见提高高并发下访问的效率的手段</h2><ul>
+<li><p>首先要了解高并发的瓶颈在哪里？<br>1.可能是服务器网络带宽不够<br>2.可能web线程连接数不够<br>3.可能数据库连接查询上不去。</p>
+</li>
+<li><p>根据不同的情况，解决思路也不同。<br>1.像第一种情况可以增加网络带宽，DNS域名解析分发多台服务器。<br>2.负载均衡，前置代理服务器nginx、apache等等<br>3.数据库查询优化，读写分离，分表等等</p>
+</li>
+<li><p>最后一些在高并发下面常常需要处理的内容：</p>
+<ul>
+<li>尽量使用缓存，包括用户缓存，信息缓存等，多花点内存来做缓存，可以大量减少与数据库的交互，提高性能。</li>
+<li>用jprofiler等工具找出性能瓶颈，减少额外的开销。</li>
+<li>优化数据库查询语句，减少直接使用hibernate等工具的直接生成语句（仅耗时较长的查询做优化）。</li>
+<li>优化数据库结构，多做索引，提高查询效率。</li>
+<li>统计的功能尽量做缓存，或按每天一统计或定时统计相关报表，避免需要时进行统计的功能。</li>
+<li>能使用静态页面的地方尽量使用，减少容器的解析（尽量将动态内容生成静态html来显示）。</li>
+<li>解决以上问题后，使用服务器集群来解决单台的瓶颈问题。</li>
+</ul>
+</li>
+</ul>
+<h2 id="案例二：股票交易系统、银行系统"><a href="#案例二：股票交易系统、银行系统" class="headerlink" title="案例二：股票交易系统、银行系统"></a>案例二：股票交易系统、银行系统</h2><p>首先，股票交易系统的行情表，每几秒钟就有一个行情记录产生，一天下来就有（假定行情3秒一个） 股票数量×20×60*6 条记录，一月下来这个表记录数量多大？ oracle中一张表的记录数超过100w后 查询性能就很差了，如何保证系统性能？</p>
+<p>大数量的系统，必须考虑表拆分-（表名字不一样，但是结构完全一样），通用的几种方式：（视情况而定）：<br>1）按业务分，比如 手机号的表，我们可以考虑 130开头的作为一个表，131开头的另外一张表 以此类推。<br>2）利用oracle的表拆分机制做分表。<br>3）如果是交易系统，我们可以考虑按时间轴拆分，当日数据一个表，历史数据弄到其它表。这里历史数据的报表和查询不会影响当日交易。</p>
+<p><strong>此外，还要考虑缓存</strong><br>这里的缓存独立于应用，依然是内存的读取，假如我们能减少数据库频繁的访问，那对系统肯定大大有利的。比如一个电子商务系统的商品搜索，如果某个关键字的商品经常被搜，那就可以考虑这部分商品列表存放到缓存（内存中去），这样不用每次访问数据库，性能大大增加。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/hashmap以及hashcode-equals-的区别/" rel="next" title="hashmap以及hashcode,equals,==的区别">
+                <i class="fa fa-chevron-left"></i> hashmap以及hashcode,equals,==的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提准备"><span class="nav-number">1.</span> <span class="nav-text">前提准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步和异步"><span class="nav-number">1.1.</span> <span class="nav-text">同步和异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理并发和同步"><span class="nav-number">1.2.</span> <span class="nav-text">处理并发和同步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理高并发、大数据存储的网站技术架构"><span class="nav-number">2.</span> <span class="nav-text">处理高并发、大数据存储的网站技术架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用服务和数据服务分离"><span class="nav-number">2.1.</span> <span class="nav-text">应用服务和数据服务分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用缓存改善网站性能"><span class="nav-number">2.2.</span> <span class="nav-text">使用缓存改善网站性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用应用服务器集群改善并发处理能力"><span class="nav-number">2.3.</span> <span class="nav-text">使用应用服务器集群改善并发处理能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库读写分离"><span class="nav-number">2.4.</span> <span class="nav-text">数据库读写分离</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java高并发解决"><span class="nav-number">3.</span> <span class="nav-text">java高并发解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见提高高并发下访问的效率的手段"><span class="nav-number">4.</span> <span class="nav-text">常见提高高并发下访问的效率的手段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例二：股票交易系统、银行系统"><span class="nav-number">5.</span> <span class="nav-text">案例二：股票交易系统、银行系统</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

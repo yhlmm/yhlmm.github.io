@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="“==”、equals和hashcode的区别==java中的数据类型，可分为两类：  基本数据类型，也称原始数据类型byte,short,char,int,long,float,double,boolean   他们之间的比较，应用双等号（==）,比较的是他们的值。 引用类型(类、接口、数组)当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hashmap以及hashcode,equals,==的区别">
+<meta property="og:url" content="http://www.flydoge.cn/2019/03/25/hashmap以及hashcode-equals-的区别/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="“==”、equals和hashcode的区别==java中的数据类型，可分为两类：  基本数据类型，也称原始数据类型byte,short,char,int,long,float,double,boolean   他们之间的比较，应用双等号（==）,比较的是他们的值。 引用类型(类、接口、数组)当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/25/hashmap以及hashcode-equals-的区别/1.png">
+<meta property="og:updated_time" content="2019-03-26T02:11:00.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hashmap以及hashcode,equals,==的区别">
+<meta name="twitter:description" content="“==”、equals和hashcode的区别==java中的数据类型，可分为两类：  基本数据类型，也称原始数据类型byte,short,char,int,long,float,double,boolean   他们之间的比较，应用双等号（==）,比较的是他们的值。 引用类型(类、接口、数组)当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/03/25/hashmap以及hashcode-equals-的区别/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/03/25/hashmap以及hashcode-equals-的区别/">
+
+
+
+
+
+  <title>hashmap以及hashcode,equals,==的区别 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/03/25/hashmap以及hashcode-equals-的区别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hashmap以及hashcode,equals,==的区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-25T10:26:10+08:00">
+                2019-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="“-”、equals和hashcode的区别"><a href="#“-”、equals和hashcode的区别" class="headerlink" title="“==”、equals和hashcode的区别"></a>“==”、equals和hashcode的区别</h2><h3 id=""><a href="#" class="headerlink" title="=="></a>==</h3><p>java中的数据类型，可分为两类：</p>
+<ol>
+<li>基本数据类型，也称原始数据类型<br>byte,short,char,int,long,float,double,boolean   他们之间的比较，应用双等号（==）,比较的是他们的值。</li>
+<li><p>引用类型(类、接口、数组)<br>当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。<br>对象是放在堆中的，栈中存放的是对象的引用（地址）。由此可见’==’是对栈中的值进行比较的。如果要比较堆中对象的内容是否相同，那么就要重写equals方法了。<br>如果一个变量指向的数据是对象（引用类型），那么，此时涉及了两块内存，对象本身占用了一块内存（堆内存），变量也占用一块内存。例如：</p>
+<blockquote>
+<p>String s=new String();</p>
+</blockquote>
+<p> 变量s占用一块存储空间，而new String()则存储在另外一块存储空间里，此时，变量s所对应内存中存储的数值就是对象占用的那块内存的首地址。对于指向对象类型的变量，如果要比较两个变量是否指向同一个对象，即要看这两个变量所对应的内存中的数值是否相等（这两个对象是否指向同一块存储空间），这时候就可以用“==”运算符进行比较。</p>
+</li>
+</ol>
+<h3 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h3><p>equals是Object类提供的方法之一。每一个Java类都集成自Object类，所以每一个对象都具有equals这个方法。Object类中定义的equals(Object)方法的情况下，equals(Object)与“==”运算符一样，比较的是引用。<br>相比“==”运算符，equals(Object)方法的特殊之处就在于它可以被覆盖，所以可以通过覆盖的方法让它不是比较引用而是比较数据内容。<br>如果一个类没有自己定义equals()方法，那么它将继承Object类的equals()方法，Object类的equals()方法的实现代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object object)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>==object;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过以上例子可以说明，如果一个类没有自己定义equals()方法，它默认的equals()方法（从Object类继承的）就是使用“==”运算符，也是在比较两个变量指向的对象是否是同一对象，此时使用equals()方法和使用“==”运算符会得到同样的结果。若比较的是两个独立的对象，则总返回false。如果编写的类希望能够比较该类创建的两个实例对象的内容是否相同，那么必须覆盖equals()方法，由开发人员自己编写代码来决定在什么情况下即可认为两个对象的内容是相同的。</p>
+<h3 id="hashcode-方法"><a href="#hashcode-方法" class="headerlink" title="hashcode()方法"></a>hashcode()方法</h3><p>hashCode()方法是从Object类中继承过来的，它也用来鉴定两个对象是否相等。Object类中的hashCode()方法返回对象在内存中地址转换成的一个int值，所以如果没有重写hashCode()方法，任何对象的hashCode()方法都是不相等的。<br>hashCode()方法返回的就是一个数值，从方法的名称上就可以看出，其目的是生成一个hash码。hash码的主要用途就是在对对象进行散列的时候作为key输入，据此很容易推断出，我们需要每个对象的hash码尽可能不同，这样才能保证散列的存取性能。</p>
+<h4 id="判断两个元素是否重复"><a href="#判断两个元素是否重复" class="headerlink" title="判断两个元素是否重复"></a>判断两个元素是否重复</h4><p>当集合要添加新的元素时，<br>先调用这个元素的hashCode方法，就一下子能定位到它应该放置的物理位置上。<br>如果这个位置上没有元素，它就可以直接存储在这个位置上，不用再进行任何比较了；<br>如果这个位置上已经有元素了，就调用它的equals方法与新元素进行比较，相同的话就不存，不相同就散列其它的地址。所以这里存在一个冲突解决的问题。这样一来实际调用equals方法的次数就大大降低了，几乎只需要一两次。</p>
+<ul>
+<li>覆盖equals时总要覆盖hashcode:<br>若重写equals(Object obj)方法，有必要重写hashcode()方法，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值。说得简单点就是：“如果两个对象相同，那么他们的hashcode应该相等”。不过请注意：这个只是规范，如果你非要写一个类让equals(Object obj)返回true而hashcode()返回两个不相等的值，编译和运行都是不会报错的。不过这样违反了Java规范，程序也就埋下了BUG。 </li>
+</ul>
+<h2 id="什么是哈希表"><a href="#什么是哈希表" class="headerlink" title="什么是哈希表"></a>什么是哈希表</h2><p>在讨论哈希表之前，先了解一下其他数据结构在新增，查找等基础操作的执行性能。<br><strong>数组：</strong>采用一段连续的存储单元来存储数据。对于指定下标的查找，时间复杂度为O(1)；通过给定值进行查找，需要遍历数组，逐一比对给定关键字和数组元素，时间复杂度为O(n)，当然，对于有序数组，则可采用二分查找，插值查找，斐波那契查找等方式，可将查找复杂度提高为O(logn)；对于一般的插入删除操作，涉及到数组元素的移动，其平均复杂度也为O(n)<br><strong>线性链表：</strong>对于链表的新增，删除等操作（在找到指定操作位置后），仅需处理结点间的引用即可，时间复杂度为O(1)，而查找操作需要遍历链表逐一进行比对，复杂度为O(n)<br><strong>二叉树：</strong>对一棵相对平衡的有序二叉树，对其进行插入，查找，删除等操作，平均复杂度均为O(logn)。<br><strong>哈希表：</strong>相比上述几种数据结构，在哈希表中进行添加，删除，查找等操作，性能十分之高，不考虑哈希冲突的情况下，仅需一次定位即可完成，时间复杂度为O(1)</p>
+<pre><code>数据结构的物理存储结构只有两种：&lt;font color=red&gt;顺序存储结构&lt;/font&gt;和&lt;font color=red&gt;链式存储结构&lt;/font&gt;(像栈，队列，树，图等是从逻辑结构去抽象的，映射到内存中，也是这两种物理组织形式)。如在数组中根据下标查找某个元素，一次定位就可以达到，哈希表利用了这种特性，哈希表的主干就是数组。
+</code></pre><p>比如我们要新增或查找某个元素，我们通过把当前元素的关键字通过某个函数映射到数组中的某个位置，通过数组下标一次定位就可操作完成。<br>        <font color="red">存储位置=f(关键字)</font><br>这个函数f一般称为哈希函数，这个函数的设计好坏会直接影响到哈希表的优劣。</p>
+<h2 id="hashmap的实现原理"><a href="#hashmap的实现原理" class="headerlink" title="hashmap的实现原理"></a>hashmap的实现原理</h2><p>简单来说，HashMap由数组+链表组成的，数组是HashMap的主体，<strong>链表则是主要为了解决哈希冲突而存在的</strong>。它以键值对的形式存储元素。当我们将键值对传递给put()方法时，它调用键对象的hashCode()方法来计算hashcode，让后找到bucket位置来储存值对象。当获取对象时，通过键对象的equals()方法找到正确的键值对，然后返回值对象。HashMap使用链表来解决碰撞问题，当发生碰撞了，对象将会储存在链表的下一个节点中。 HashMap在每个链表节点中储存键值对对象。</p>
+<p><font color="darkblue">&gt;put()时，HashMap会先遍历table数组，用hash值和equals()判断数组中是否存在完全相同的key对象， 如果这个key对象在table数组中已经存在，就用新的value代替老的value。如果不存在，就创建一个新的Entry对象添加到table[ i ]处。如果该table[ i ]已经存在其他元素，那么新Entry对象将会储存在bucket链表的表头，通过next指向原有的Entry对象，形成链表结构（hash碰撞解决方案）。</font><br><img src="/2019/03/25/hashmap以及hashcode-equals-的区别/1.png" alt="1"><br><code>方块表示Entry对象，横排表示数组table[]，纵排表示哈希桶bucket【实际上是一个由Entry组成的链表，新加入的Entry放在链头，最先加入的放在链尾】</code><br>如果定位到的数组位置不含链表（当前entry的next指向null）,那么对于查找，添加等操作很快，仅需一次寻址即可；如果定位到的数组包含链表，对于添加操作，其时间复杂度为O(n)，首先遍历链表，存在即覆盖，否则新增；对于查找操作来讲，仍需遍历链表，然后通过key对象的equals方法逐一比对查找。所以，性能考虑，HashMap中的链表出现越少，性能才会越好。</p>
+<h3 id="扩容机制"><a href="#扩容机制" class="headerlink" title="扩容机制"></a>扩容机制</h3><p>当HashMap的长度超出了加载因子与当前容量的乘积（默认16*0.75=12）时，通过调用resize方法重新创建一个原来HashMap大小的两倍的newTable数组，最大扩容到2^30+1，并将原先table的元素全部移到newTable里面，重新计算hash，然后再重新根据hash分配位置。这个过程叫作rehash，因为它调用hash方法找到新的bucket位置。</p>
+<h3 id="HashMap存入和取出数据顺序不一致"><a href="#HashMap存入和取出数据顺序不一致" class="headerlink" title="HashMap存入和取出数据顺序不一致"></a>HashMap存入和取出数据顺序不一致</h3><p>Hashmap是一个最常用的Map，它根据键的HashCode值存储数据，根据键可以直接获取它的值，具有很快的访问速度，遍历时，取得数据的顺序完全是随机的，这样会导致按照顺序读取的时候和存入的顺序是不一样的。HashMap最多只允许一条记录的键为Null；允许多条记录的值为Null;HashMap不支持线程的同步，即任一时刻可以有多个线程同时写HashMap;可能导致数据的不一致。如果需要同步，可以用Collections的synchronizedMap方法使HashMap具有同步的能力，或者使用ConcurrentHashMap。</p>
+<p>LinkedHashMap是HashMap的一个子类，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入的</p>
+<h3 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h3><ul>
+<li>HashMap几乎可以等价于Hashtable，除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)，而Hashtable则不行)。</li>
+<li>HashMap是非synchronized，而Hashtable是synchronized，这意味着Hashtable是线程安全的，多个线程可以共享一个Hashtable；而如果没有正确的同步的话，多个线程是不能共享HashMap的。Java 5提供了ConcurrentHashMap，它是HashTable的替代，比HashTable的扩展性更好。</li>
+<li>另一个区别是HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable的enumerator迭代器不是fail-fast的。所以当有其它线程改变了HashMap的结构（增加或者移除元素），将会抛出ConcurrentModificationException，但迭代器本身的remove()方法移除元素则不会抛出ConcurrentModificationException异常。但这并不是一个一定发生的行为，要看JVM。这条同样也是Enumeration和Iterator的区别。</li>
+<li>由于Hashtable是线程安全的也是synchronized，所以在单线程环境下它比HashMap要慢。如果你不需要同步，只需要单一线程，那么使用HashMap性能要好过Hashtable。</li>
+<li>HashMap不能保证随着时间的推移Map中的元素次序是不变的。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/15/ssm学习分析/" rel="next" title="ssm学习分析">
+                <i class="fa fa-chevron-left"></i> ssm学习分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/26/java高并发的访问和存储的设计/" rel="prev" title="java高并发的访问和存储的设计">
+                java高并发的访问和存储的设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#“-”、equals和hashcode的区别"><span class="nav-number">1.</span> <span class="nav-text">“==”、equals和hashcode的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text">==</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#equals"><span class="nav-number">1.2.</span> <span class="nav-text">equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashcode-方法"><span class="nav-number">1.3.</span> <span class="nav-text">hashcode()方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#判断两个元素是否重复"><span class="nav-number">1.3.1.</span> <span class="nav-text">判断两个元素是否重复</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是哈希表"><span class="nav-number">2.</span> <span class="nav-text">什么是哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashmap的实现原理"><span class="nav-number">3.</span> <span class="nav-text">hashmap的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扩容机制"><span class="nav-number">3.1.</span> <span class="nav-text">扩容机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap存入和取出数据顺序不一致"><span class="nav-number">3.2.</span> <span class="nav-text">HashMap存入和取出数据顺序不一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap和HashTable的区别"><span class="nav-number">3.3.</span> <span class="nav-text">HashMap和HashTable的区别</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

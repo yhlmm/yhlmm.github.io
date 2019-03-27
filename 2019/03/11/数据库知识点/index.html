@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/1.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/2.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/11/数据库知识点/3.png">
-<meta property="og:updated_time" content="2019-03-15T02:39:06.151Z">
+<meta property="og:updated_time" content="2019-03-26T07:19:35.894Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库知识点">
 <meta name="twitter:description" content="关系型数据库与非关系型数据库关系型数据库：指采用了关系模型来组织数据的数据库。关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。其最大的特点是事务一致性。比如：SQLite,Oracle,mysql  优点： 易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率。 使用方便：通用的SQL语言使得操作关">
@@ -412,9 +412,10 @@
 <h3 id="数据库事务"><a href="#数据库事务" class="headerlink" title="数据库事务"></a>数据库事务</h3><p>事务是一个不可分割的数据库操作序列，也是数据库并发控制的基本单位，其执行的结果必须使数据库从一种一致性状态变到另一种一致性状态。以BEGIN;或者START TRANSACTION;显式的开启一个事务。</p>
 <h4 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h4><ul>
 <li>脏读：一个事务读取了另一个事务未提交的数据；</li>
-<li>不可重复读：不可重复读的重点是修改，同样条件下两次读取结果不同。被读取的数据可以被其他事务修改。</li>
-<li>幻读：幻读的重点在于新增或者删除，同样条件下两次读出来的记录数不一样。</li>
+<li>不可重复读：不可重复读的重点是修改，同样条件下两次读取结果不同。被读取的数据可以被其他事务修改。(update和delete)</li>
+<li>幻读：幻读的重点在于新增或者删除，同样条件下两次读出来的记录数不一样。(insert)</li>
 </ul>
+<p>如果使用锁机制来实现这两种隔离级别，在可重复读中，该sql第一次读取到数据后，就将这些数据加锁，其它事务无法修改这些数据，就可以实现可重复 读了。但这种方法却无法锁住insert的数据，所以当事务A先前读取了数据，或者修改了全部数据，事务B还是可以insert数据提交，这时事务A就会 发现莫名其妙多了一条之前没有的数据，这就是幻读，不能通过行锁来避免。需要Serializable隔离级别 ，读用读锁，写用写锁，读锁和写锁互斥，这么做可以有效的避免幻读、不可重复读、脏读等问题，但会极大的降低数据库的并发能力。</p>
 <h4 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h4><p>隔离级别决定了一个session中的事务可能对另一个session中的事务的影响。ANSI标准定义了4个隔离级别，MySQL的InnoDB都支持，分别是：</p>
 <ul>
 <li><font color="red">READ UNCOMMITTED</font>(读未提交):最低级别的隔离，通常又称为dirty read，它允许一个事务读取另一个事务还没commit的数据，这样可能会提高性能，但是会导致脏读问题；</li>
@@ -629,7 +630,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
