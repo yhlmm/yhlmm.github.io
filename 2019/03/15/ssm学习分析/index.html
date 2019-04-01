@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/7.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/8.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/9.png">
-<meta property="og:updated_time" content="2019-03-27T13:52:23.874Z">
+<meta property="og:updated_time" content="2019-04-01T05:32:29.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssm学习分析">
 <meta name="twitter:description" content="Mybatis学习Mybatis是一个优秀的基于java持久层框架，内部封装了JDBC，使开发者只需关注SQL语句本身，而不用再花费精力去处理诸如注册驱动，创建Connection，配置Statement等繁杂过程。Mybatis通过xml或注解的方式要将执行的各种statement（statement、preparedStatement等）配置起来，并通过java对象和Statement中的S">
@@ -336,18 +336,18 @@
 5. 参数的索引号
 </code></pre><h3 id="动态sql"><a href="#动态sql" class="headerlink" title="动态sql"></a>动态sql</h3><p>动态sql，即通过Mybatis提供的各种标签对条件做出判断以实现动态拼接SQL语句。动态SQL，主要用于解决查询条件不确定的情况：在程序运行期间，根据用户提交的查询条件进行查询。提交的查询条件不同，执行的sql语句不同。若将每种可能的情况逐一列出，对所有条件进行排列组合，将会出现大量的SQL语句。此时，可使用动态SQL来解决这样的问题。</p>
 <ul>
-<li><if>标签：对于该标签的执行，当test的值为true时，会将其包含的SQL片段拼接到其所在的SQL语句中。</if></li>
-<li><where>标签：where标签中当sql语句的and当不使用时可以被自动去掉</where></li>
-<li><choose>标签：该标签中只可以包含<when><otherwise>，可以包含多个<when>与一个<otherwise>。它们联合使用，完成java中的开关语句switch…case功能。<br>本例要完成的需求是，若姓名为空，则按照姓名查询；若姓名为空，则按照年龄查询；若没有查询条件，则没有查询结果。<br><img src="/2019/03/15/ssm学习分析/2.png" alt="2"></otherwise></when></otherwise></when></choose></li>
+<li>\&lt;if/>标签：对于该标签的执行，当test的值为true时，会将其包含的SQL片段拼接到其所在的SQL语句中。</li>
+<li>\&lt;where/>标签：where标签中当sql语句的and当不使用时可以被自动去掉</li>
+<li>\&lt;choose/>标签：该标签中只可以包含\&lt;when/>\&lt;otherwise/>，可以包含多个\&lt;when/>与一个\&lt;otherwise/>。它们联合使用，完成java中的开关语句switch…case功能。<br>本例要完成的需求是，若姓名为空，则按照姓名查询；若姓名为空，则按照年龄查询；若没有查询条件，则没有查询结果。<br><img src="/2019/03/15/ssm学习分析/2.png" alt="2"></li>
 </ul>
 <blockquote>
 <p>两个if并列放，一个匹配完了，匹配另一个。when是一个匹配成功，则不需要匹配其他的。</p>
 </blockquote>
 <ul>
-<li><foreach>标签：遍历数组。<foreach>标签用于实现对于数组与集合的遍历。对其使用，需要注意：<blockquote>
+<li>\&lt;foreach/>标签：遍历数组。\&lt;foreach/>标签用于实现对于数组与集合的遍历。对其使用，需要注意：<blockquote>
 <p><font color="red">collection表示要遍历的集合类型，这里是数组。即array.</font><br><font color="red">open、close、separator为对遍历内容的SQL拼接。</font><br><img src="/2019/03/15/ssm学习分析/3.png" alt="3"></p>
 </blockquote>
-</foreach></foreach></li>
+</li>
 </ul>
 <h3 id="关联关系查询"><a href="#关联关系查询" class="headerlink" title="关联关系查询"></a>关联关系查询</h3><ul>
 <li>多表连接查询：<br>执行了一个select查询：<br><img src="/2019/03/15/ssm学习分析/4.png" alt="4"></li>
