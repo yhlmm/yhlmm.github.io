@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/7.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/8.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/9.png">
-<meta property="og:updated_time" content="2019-04-02T05:39:00.900Z">
+<meta property="og:updated_time" content="2019-04-02T05:42:27.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssm学习分析">
 <meta name="twitter:description" content="Mybatis学习Mybatis是一个优秀的基于java持久层框架，内部封装了JDBC，使开发者只需关注SQL语句本身，而不用再花费精力去处理诸如注册驱动，创建Connection，配置Statement等繁杂过程。Mybatis通过xml或注解的方式要将执行的各种statement（statement、preparedStatement等）配置起来，并通过java对象和Statement中的S">
@@ -326,7 +326,7 @@
 <p>然后，SqlSessionFactory的实例直接开启一个SqlSession，再通过SqlSession实例获得Mapper对象并运行Mapper映射的SQL语句，完成对数据库的CRUD和事务提交，之后关闭SqlSession。</p>
 <p>说明：SqlSession是单线程对象，因为它是非线程安全的，是持久化操作的独享对象，类似jdbc中的Connection，底层就封装了jdbc连接。</p>
 <p>详细流程如下：</p>
-<p>1、加载mybatis全局配置文件（数据源、mapper映射文件等），解析配置文件，MyBatis基于XML配置文件生成Configuration，和一个个MappedStatement（包括了参数映射配置、动态SQL语句、结果映射配置），其对应着<select |="" update="" delete="" insert="">标签项。</select></p>
+<p>1、加载mybatis全局配置文件（数据源、mapper映射文件等），解析配置文件，MyBatis基于XML配置文件生成Configuration，和一个个MappedStatement（包括了参数映射配置、动态SQL语句、结果映射配置），其对应着<select |="" update="" delete="" insert\="">标签项。</select></p>
 <p>2、SqlSessionFactoryBuilder通过Configuration对象生成SqlSessionFactory，用来开启SqlSession。</p>
 <p>3、SqlSession对象完成和数据库的交互：<br>a、用户程序调用mybatis接口层api（即Mapper接口中的方法）<br>b、SqlSession通过调用api的Statement ID找到对应的MappedStatement对象<br>c、通过Executor（负责动态SQL的生成和查询缓存的维护）将MappedStatement对象进行解析，sql参数转化、动态sql拼接，生成jdbc Statement对象<br>d、JDBC执行sql。</p>
 <p>e、借助MappedStatement中的结果映射关系，将返回结果转化成HashMap、JavaBean等存储结构并返回。</p>
