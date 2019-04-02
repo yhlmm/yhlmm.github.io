@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="线程的三种写法 继承自Thread类，重写run方法（单继承） 继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常） 继承自Callable接口，重写call方法  Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-01T01:22:53.890Z">
+<meta property="og:updated_time" content="2019-04-01T15:43:15.659Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发">
 <meta name="twitter:description" content="线程的三种写法 继承自Thread类，重写run方法（单继承） 继承自Runnable接口，重写run方法（无法获取返回值和捕获线程中抛出的异常） 继承自Callable接口，重写call方法  Java中线程同步的方式java允许多线程并发控制，当多线程同时操作一个可共享的资源变量时，将会导致数据不准确，相互之间产生冲突，因此加入同步锁以避免在该线程没有完成操作之前，被其他线程调用，从而保证了">
@@ -379,7 +379,7 @@
 <li>newCacheThreadExecutor（推荐使用）<br>可缓存线程池，当线程池大小超过了处理任务所需的线程，那么就会回收部分空闲（一般是60秒无执行）的线程，当有任务来时，又智能的添加新线程来执行。</li>
 <li>newScheduleThreadExecutor<br>大小无限制的线程池，支持定时和周期性的执行线程</li>
 </ul>
-<p><strong>线程池的创建</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个可重用固定线程数的线程池</span></span><br><span class="line">ExecutorService pool=Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个可重用固定线程数的线程池</span></span><br><span class="line">ExecutorService pool=Executors.newFixedThreadPool(<span class="number">2</span>);</span><br></pre></td></tr></table></figure></p>
+<p><strong>线程池的创建</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个可重用固定线程数的线程池</span></span><br><span class="line">ExecutorService pool=Executors.newSingleThreadExecutor();</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个可重用固定线程数的线程池</span></span><br><span class="line">ExecutorService pool=Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个可重用固定线程数的线程池</span></span><br><span class="line">ExecutorService pool=Executors.newCachedThreadPool();</span><br></pre></td></tr></table></figure></p>
 <h3 id="java中的ThreadPoolExecutor类"><a href="#java中的ThreadPoolExecutor类" class="headerlink" title="java中的ThreadPoolExecutor类"></a>java中的ThreadPoolExecutor类</h3><p>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类，因此如果要透彻地了解Java中的线程池，必须先了解这个类。<br>创建线程池时每个参数的作用</p>
 <ul>
 <li><strong>corePoolSize</strong>：核心池的大小，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务。</li>
