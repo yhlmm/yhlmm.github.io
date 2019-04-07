@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="tomcat目录tomcat服务器是一个优秀的servlet服务器，本身用java语言编写，所以tomcat运行时需要java的支持，需要先安装jdk。 tomcat的目录结构1. bin：bin目录主要是用来存放tomcat的命令，主要有两大类，一类是以.sh结尾的（linux命令），另一类是以.bat结尾的（windows命令）。 很多环境变量的设置都在此处，例如可以设置JDK路径、tomc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat详解">
+<meta property="og:url" content="http://www.flydoge.cn/2019/04/03/tomcat详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="tomcat目录tomcat服务器是一个优秀的servlet服务器，本身用java语言编写，所以tomcat运行时需要java的支持，需要先安装jdk。 tomcat的目录结构1. bin：bin目录主要是用来存放tomcat的命令，主要有两大类，一类是以.sh结尾的（linux命令），另一类是以.bat结尾的（windows命令）。 很多环境变量的设置都在此处，例如可以设置JDK路径、tomc">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/4.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/5.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/6.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/7.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/8.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/9.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/1.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/2.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/3.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/4.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/5.png">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/3.jpg">
+<meta property="og:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/6.png">
+<meta property="og:updated_time" content="2019-04-03T07:11:45.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat详解">
+<meta name="twitter:description" content="tomcat目录tomcat服务器是一个优秀的servlet服务器，本身用java语言编写，所以tomcat运行时需要java的支持，需要先安装jdk。 tomcat的目录结构1. bin：bin目录主要是用来存放tomcat的命令，主要有两大类，一类是以.sh结尾的（linux命令），另一类是以.bat结尾的（windows命令）。 很多环境变量的设置都在此处，例如可以设置JDK路径、tomc">
+<meta name="twitter:image" content="http://www.flydoge.cn/2019/04/03/tomcat详解/4.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.flydoge.cn/2019/04/03/tomcat详解/">
+
+
+
+
+
+  <title>tomcat详解 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.flydoge.cn/2019/04/03/tomcat详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="flydog">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tomcat详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-03T09:53:07+08:00">
+                2019-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="tomcat目录"><a href="#tomcat目录" class="headerlink" title="tomcat目录"></a>tomcat目录</h2><p>tomcat服务器是一个优秀的servlet服务器，本身用java语言编写，所以tomcat运行时需要java的支持，需要先安装jdk。</p>
+<h3 id="tomcat的目录结构"><a href="#tomcat的目录结构" class="headerlink" title="tomcat的目录结构"></a>tomcat的目录结构</h3><p><strong>1. bin：</strong><br>bin目录主要是用来存放tomcat的命令，主要有两大类，一类是以.sh结尾的（linux命令），另一类是以.bat结尾的（windows命令）。</p>
+<p>很多环境变量的设置都在此处，例如可以设置JDK路径、tomcat路径 </p>
+<ul>
+<li>startup 用来启动tomcat </li>
+<li>shutdown 用来关闭tomcat </li>
+<li>修改catalina可以设置tomcat的内存</li>
+</ul>
+<p><strong>2. conf</strong>:<br>conf目录主要是用来存放tomcat的一些配置文件。</p>
+<ul>
+<li>server.xml可以设置端口号、设置域名或IP、默认加载的项目、请求编码 </li>
+<li>web.xml可以设置tomcat支持的文件类型 </li>
+<li>context.xml可以用来配置数据源之类的 </li>
+<li>tomcat-users.xml用来配置管理tomcat的用户与权限 </li>
+<li>在Catalina目录下可以设置默认加载的项目 </li>
+</ul>
+<p><strong>3. lib</strong>:<br>lib目录主要用来存放tomcat运行需要加载的jar包。<br>例如，像连接数据库的jdbc的包我们可以加入到lib目录中来。</p>
+<p><strong>4. logs</strong>:<br>logs目录用来存放tomcat在运行过程中产生的日志文件，非常重要的是在控制台输出的日志。（清空不会对tomcat运行带来影响）<br>在windows环境中，控制台的输出日志在catalina.xxxx-xx-xx.log文件中<br>在linux环境中，控制台的输出日志在catalina.out文件中</p>
+<p><strong>5. temp</strong>:<br>temp目录用户存放tomcat在运行过程中产生的临时文件。（清空不会对tomcat运行带来影响）</p>
+<p><strong>6. webapps</strong>:<br>webapps目录用来存放应用程序，当tomcat启动时会去加载webapps目录下的应用程序。可以以文件夹、war包、jar包的形式发布应用。<br>当然，你也可以把应用程序放置在磁盘的任意位置，在配置文件中映射好就行。</p>
+<p><strong>7. work</strong>:<br>work目录用来存放tomcat在运行时的编译后文件，例如JSP编译后的文件。<br>清空work目录，然后重启tomcat，可以达到清除缓存的作用。</p>
+<h2 id="详解tomcat的连接数与线程池"><a href="#详解tomcat的连接数与线程池" class="headerlink" title="详解tomcat的连接数与线程池"></a>详解tomcat的连接数与线程池</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在使用tomcat时，经常会遇到连接数、线程数之类的配置问题，需要了解Tomcat的连接器(Connector)。<br>Tomcat配置文件server.xml中：Connector的主要功能，是接收连接请求，创建Request和Response对象用于和请求端交换数据；然后分配线程让Engine（也就是Servlet容器）来处理这个请求，并把产生的Request和Response对象传给Engine。当Engine处理完请求后，也会通过Connector将响应返回给客户端。<br>可以说，Servlet容器处理请求，是需要Connector进行调度和控制的，Connector是Tomcat处理请求的主干，因此Connector的配置和使用对Tomcat的性能有着重要的影响。这篇文章将从Connector入手，讨论一些与Connector有关的重要问题，包括NIO/BIO模式、线程池、连接数等。</p>
+<p>根据协议的不同，Connector可以分为HTTP Connector、AJP Connector等，本文只讨论HTTP Connector。</p>
+<h3 id="NIO-BIO-APR"><a href="#NIO-BIO-APR" class="headerlink" title="NIO,BIO,APR"></a>NIO,BIO,APR</h3><h4 id="Connector的protocol"><a href="#Connector的protocol" class="headerlink" title="Connector的protocol"></a><font color="red">Connector的protocol</font></h4><p>Connector在处理HTTP请求时，会使用不同的protocol。不同的Tomcat版本支持的protocol不同，其中最典型的protocol包括BIO、NIO和APR（Tomcat7中支持这3种，Tomcat8增加了对NIO2的支持，而到了Tomcat8.5和Tomcat9.0，则去掉了对BIO的支持）。</p>
+<p>BIO是Blocking IO，顾名思义是阻塞的IO；NIO是Non-blocking IO，则是非阻塞的IO。而APR是Apache Portable Runtime，是Apache可移植运行库，利用本地库可以实现高可扩展性、高性能；Apr是在Tomcat上运行高并发应用的首选模式，但是需要安装apr、apr-utils、tomcat-native等包。</p>
+<h4 id="如何指定protocol"><a href="#如何指定protocol" class="headerlink" title="如何指定protocol"></a><font color="red">如何指定protocol</font></h4><p>Connector使用哪种protocol，可以通过\&lt;connector>元素中的protocol属性进行指定，也可以使用默认值。<br>指定的protocol取值及对应的协议如下：<br>HTTP/1.1：默认值，使用的协议与Tomcat版本有关<br>org.apache.coyote.http11.Http11Protocol：BIO<br>org.apache.coyote.http11.Http11NioProtocol：NIO<br>org.apache.coyote.http11.Http11Nio2Protocol：NIO2<br>org.apache.coyote.http11.Http11AprProtocol：APR<br>如果没有指定protocol，则使用默认值HTTP/1.1，其含义如下：在Tomcat7中，自动选取使用BIO或APR（如果找到APR需要的本地库，则使用APR，否则使用BIO）；在Tomcat8中，自动选取使用NIO或APR（如果找到APR需要的本地库，则使用APR，否则使用NIO）。</p>
+<h4 id="BIO-NIO有何不同"><a href="#BIO-NIO有何不同" class="headerlink" title="BIO/NIO有何不同"></a><font color="red">BIO/NIO有何不同</font></h4><p>无论是BIO，还是NIO，Connector处理请求的大致流程是一样的：</p>
+<font color="red">在accept队列中接收连接（当客户端向服务器发送请求时，如果客户端与OS完成三次握手建立了连接，则OS将该连接放入accept队列）；在连接中获取请求的数据，生成request；调用servlet容器处理请求；返回response。</font>为了便于后面的说明，首先明确一下连接与请求的关系：连接是TCP层面的（传输层），对应socket；请求是HTTP层面的（应用层），必须依赖于TCP的连接实现；一个TCP连接中可能传输多个HTTP请求。<br><br>在BIO实现的Connector中，处理请求的主要实体是JIoEndpoint对象。JIoEndpoint维护了Acceptor和Worker：Acceptor接收socket，然后从Worker线程池中找出空闲的线程处理socket，如果worker线程池没有空闲线程，则Acceptor将阻塞。其中Worker是Tomcat自带的线程池，如果通过\&lt;Executor>配置了其他线程池，原理与Worker类似。<br><br>在NIO实现的Connector中，处理请求的主要实体是NIoEndpoint对象。NIoEndpoint中除了包含Acceptor和Worker外，还是用了Poller，处理流程如下图所示:<br><img src="/2019/04/03/tomcat详解/4.jpg" alt="4"><br><br>Acceptor接收socket后，不是直接使用Worker中的线程处理请求，而是先将请求发送给了Poller，而Poller是实现NIO的关键。Acceptor向Poller发送请求通过队列实现，使用了典型的生产者-消费者模式。在Poller中，维护了一个Selector对象；当Poller从队列中取出socket后，注册到该Selector中；然后通过遍历Selector，找出其中可读的socket，并使用Worker中的线程处理相应请求。与BIO类似，Worker也可以被自定义的线程池代替。<br><br>通过上述过程可以看出，在NIoEndpoint处理请求的过程中，无论是Acceptor接收socket，还是线程处理请求，使用的仍然是阻塞方式；但在“读取socket并交给Worker中的线程”的这个过程中，使用非阻塞的NIO实现，这是NIO模式与BIO模式的最主要区别（其他区别对性能影响较小，暂时略去不提）。而这个区别，在并发量较大的情形下可以带来Tomcat效率的显著提升：<br><br>目前大多数HTTP请求使用的是长连接（HTTP/1.1默认keep-alive为true），而长连接意味着，一个TCP的socket在当前请求结束后，如果没有新的请求到来，socket不会立马释放，而是等timeout后再释放。如果使用BIO，“读取socket并交给Worker中的线程”这个过程是阻塞的，也就意味着在socket等待下一个请求或等待释放的过程中，处理这个socket的工作线程会一直被占用，无法释放；因此Tomcat可以同时处理的socket数目不能超过最大线程数，性能受到了极大限制。而使用NIO，“读取socket并交给Worker中的线程”这个过程是非阻塞的，当socket在等待下一个请求或等待释放时，并不会占用工作线程，因此Tomcat可以同时处理的socket数目远大于最大线程数，并发性能大大提高。<br><br>### acceptCount、maxConnections、maxThreads<br>再回顾一下Tomcat处理请求的过程：在accept队列中接收连接（当客户端向服务器发送请求时，如果客户端与OS完成三次握手建立了连接，则OS将该连接放入accept队列）；在连接中获取请求的数据，生成request；调用servlet容器处理请求；返回response。<br>    相应的，Connector中的几个参数功能如下：<br><strong>1.acceptCount</strong><br>accept队列的长度；当accept队列中连接的个数达到acceptCount时，队列满，进来的请求一律被拒绝。默认值是100。<br><br><strong>2.maxConnections</strong><br>Tomcat在任意时刻接收和处理的最大连接数。当Tomcat接收的连接数达到maxConnections时，Acceptor线程不会读取accept队列中的连接；这时accept队列中的线程会一直阻塞着，直到Tomcat接收的连接数小于maxConnections。如果设置为-1，则连接数不受限制。<br><br>默认值与连接器使用的协议有关：NIO的默认值是10000，APR/native的默认值是8192，而BIO的默认值为maxThreads（如果配置了Executor，则默认值是Executor的maxThreads）。<br><br>在windows下，APR/native的maxConnections值会自动调整为设置值以下最大的1024的整数倍；如设置为2000，则最大值实际是1024。<br><br><strong>3.maxThreads</strong><br>请求处理线程的最大数量。默认值是200（Tomcat7和8都是的）。如果该Connector绑定了Executor，这个值会被忽略，因为该Connector将使用绑定的Executor，而不是内置的线程池来执行任务。<br><br>maxThreads规定的是最大的线程数目，并不是实际running的CPU数量；实际上，maxThreads的大小比CPU核心数量要大得多。这是因为，处理请求的线程真正用于计算的时间可能很少，大多数时间可能在阻塞，如等待数据库返回数据、等待硬盘读写数据等。因此，在某一时刻，只有少数的线程真正的在使用物理CPU，大多数线程都在等待；因此线程数远大于物理核心数才是合理的。<br><br>换句话说，Tomcat通过使用比CPU核心数量多得多的线程数，可以使CPU忙碌起来，大大提高CPU的利用率。<br><br><strong>4.参数设置</strong><br>（1）maxThreads的设置既与应用的特点有关，也与服务器的CPU核心数量有关。通过前面介绍可以知道，maxThreads数量应该远大于CPU核心数量；而且CPU核心数越大，maxThreads应该越大；应用中CPU越不密集（IO越密集），maxThreads应该越大，以便能够充分利用CPU。当然，maxThreads的值并不是越大越好，如果maxThreads过大，那么CPU会花费大量的时间用于线程的切换，整体效率会降低。<br><br>（2）maxConnections的设置与Tomcat的运行模式有关。如果tomcat使用的是BIO，那么maxConnections的值应该与maxThreads一致；如果tomcat使用的是NIO，那么类似于Tomcat的默认值，maxConnections值应该远大于maxThreads。<br><br>（3）通过前面的介绍可以知道，虽然tomcat同时可以处理的连接数目是maxConnections，但服务器中可以同时接收的连接数为maxConnections+acceptCount 。acceptCount的设置，与应用在连接过高情况下希望做出什么反应有关系。如果设置过大，后面进入的请求等待时间会很长；如果设置过小，后面进入的请求立马返回connection refused。<br><br>### 线程池Executor<br>Executor元素代表Tomcat中的线程池，可以由其他组件共享使用；要使用该线程池，组件需要通过executor属性指定该线程池。<br><br>Executor是Service元素的内嵌元素。一般来说，使用线程池的是Connector组件；为了使Connector能使用线程池，Executor元素应该放在Connector前面。Executor与Connector的配置举例如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Executor name=<span class="string">"tomcatThreadPool"</span> namePrefix =<span class="string">"catalina-exec-"</span> maxThreads=<span class="string">"150"</span> minSpareThreads=<span class="string">"4"</span> /&gt;</span><br><span class="line">&lt;Connector executor=<span class="string">"tomcatThreadPool"</span> port=<span class="string">"8080"</span> protocol=<span class="string">"HTTP/1.1"</span> connectionTimeout=<span class="string">"20000"</span> redirectPort=<span class="string">"8443"</span> acceptCount=<span class="string">"1000"</span> /&gt;</span><br></pre></td></tr></table></figure><br><br>Executor的主要属性包括：<br>- name：该线程池的标记<br>- maxThreads：线程池中最大活跃线程数，默认值200（Tomcat7和8都是）<br>- minSpareThreads：线程池中保持的最小线程数，最小值是25<br>- maxIdleTime：线程空闲的最大时间，当空闲超过该值时关闭线程（除非线程数小于minSpareThreads），单位是ms，默认值60000（1分钟）<br>- daemon：是否后台线程，默认值true<br>- threadPriority：线程优先级，默认值5<br>- namePrefix：线程名字的前缀，线程池中线程名字为：namePrefix+线程编号<br><br>### 查询当前状态<br>上面介绍了Tomcat连接数、线程数的概念以及如何设置，下面说明如何查看服务器中的连接数和线程数。<br><br>查看服务器的状态，大致分为两种方案：（1）使用现成的工具，（2）直接使用Linux的命令查看。<br><br>现成的工具，如JDK自带的jconsole工具可以方便的查看线程信息（此外还可以查看CPU、内存、类、JVM基本信息等），Tomcat自带的manager，收费工具New Relic等。下图是jconsole查看线程信息的界面：<br><img src="/2019/04/03/tomcat详解/5.jpg" alt="5"><br><br><br><strong>下面通过linux命令行，查看服务器中的连接数和线程数</strong><br>#### 连接数<br>假设Tomcat接收http请求的端口是8083，则可以使用如下语句查看连接情况：<br>&gt;netstat –nat | grep 8083<br><br>结果如下：<br><img src="/2019/04/03/tomcat详解/6.jpg" alt="6"><br>可以看出，有一个连接处于listen状态，监听请求；除此之外，还有4个已经建立的连接（ESTABLISHED）和2个等待关闭的连接（CLOSE_WAIT）。<br><br>#### 线程<br>ps命令可以查看进程状态，如执行如下命令：<br>&gt;ps –e | grep java<br><br>结果如下图：<br><img src="/2019/04/03/tomcat详解/7.png" alt="7"><br>可以看到，只打印了一个进程的信息；27989是线程id，java是指执行的java命令。这是因为启动一个tomcat，内部所有的工作都在这一个进程里完成，包括主线程、垃圾回收线程、Acceptor线程、请求处理线程等等。<br><br>通过如下命令，可以看到该进程内有多少个线程；其中，nlwp含义是number of light-weight process。<br>&gt;ps –o nlwp 27989<br><br><img src="/2019/04/03/tomcat详解/8.png" alt="8"><br>可以看到，该进程内部有73个线程；但是73并没有排除处于idle状态的线程。要想获得真正在running的线程数量，可以通过以下语句完成：<br>&gt;ps -eLo pid ,stat | grep 27989 | grep running | wc -l<br><br>其中ps -eLo pid ,stat可以找出所有线程，并打印其所在的进程号和线程当前的状态；两个grep命令分别筛选进程号和线程状态；wc统计个数。其中，ps -eLo pid ,stat | grep 27989输出的结果如下：<br><img src="/2019/04/03/tomcat详解/9.png" alt="9"><br>图中只截图了部分结果；Sl表示大多数线程都处于空闲状态。<br><br><br>## tomcat系统架构<br>### tomcat顶层架构<br>先上一张tomcat的顶层架构，如下：<br><img src="/2019/04/03/tomcat详解/1.jpg" alt="1"><br>Tomcat中最顶层的容器是Server，代表着整个服务器，从上图中可以看出，一个Server可以包含至少一个Service，用于具体对外提供服务。<br>Service主要包含两个部分：Connector和Container。从上图中可以看出 Tomcat 的心脏就是这两个组件，他们的作用如下：<br>&gt;1、Connector用于处理连接相关的事情，并提供Socket与Request和Response相关的转化;<br>&gt;2、Container用于封装和管理Servlet，以及具体处理Request请求；<br><br>一个Tomcat中只有一个Server，一个Server可以包含多个Service，一个Service只有一个Container，但是可以有多个Connectors，这是因为一个服务可以有多个连接，如同时提供Http和Https链接，也可以提供向相同协议不同端口的连接,示意图如下（Engine、Host、Context下边会说到）：<br><img src="/2019/04/03/tomcat详解/2.jpg" alt="2"><br>多个 Connector 和一个 Container 就形成了一个 Service，有了 Service 就可以对外提供服务了，但是 Service 还要一个生存的环境，必须要有人能够给她生命、掌握其生死大权，那就非 Server 莫属了！所以整个 Tomcat 的生命周期由 Server 控制。<br><br>### connector和container的微妙关系<br>由上述内容我们大致可以知道一个请求发送到Tomcat之后，首先经过Service然后会交给我们的Connector，Connector用于接收请求并将接收的请求封装为Request和Response来具体处理，Request和Response封装完之后再交由Container进行处理，Container处理完请求之后再返回给Connector，最后在由Connector通过Socket将处理的结果返回给客户端，这样整个请求的就处理完了！<br>Connector最底层使用的是Socket来进行连接的，Request和Response是按照HTTP协议来封装的，所以Connector同时需要实现TCP/IP协议和HTTP协议！<br><br>### Connector架构分析<br>Connector用于接受请求并将请求封装成Request和Response，然后交给Container进行处理，Container处理完之后在交给Connector返回给客户端。<br>所以我们把Connector分为四个方面进行理解：<br><br>1. <font color="red">Connector如何接受请求的？ </font><br>2. <font color="red">如何将请求封装成Request和Response的？ </font><br>3. <font color="red">封装完之后的Request和Response如何交给Container进行处理的？</font><br>4. <font color="red">Container处理完之后如何交给Connector并返回给客户端的？</font>
+
+<p>Connector结构图：<br><img src="/2019/04/03/tomcat详解/3.png" alt="3"><br>Connector就是使用ProtocolHandler来处理请求的，不同的ProtocolHandler代表不同的连接类型，比如：Http11Protocol使用的是普通Socket来连接的，Http11NioProtocol使用的是NioSocket来连接的。</p>
+<p>其中ProtocolHandler由包含了三个部件：Endpoint、Processor、Adapter。</p>
+<p>（1）Endpoint用来处理底层Socket的网络连接，Processor用于将Endpoint接收到的Socket封装成Request，Adapter用于将Request交给Container进行具体的处理。</p>
+<p>（2）Endpoint由于是处理底层的Socket网络连接，因此Endpoint是用来实现TCP/IP协议的，而Processor用来实现HTTP协议的，Adapter将请求适配到Servlet容器进行具体的处理。</p>
+<p>（3）Endpoint的抽象实现AbstractEndpoint里面定义的Acceptor和AsyncTimeout两个内部类和一个Handler接口。Acceptor用于监听请求，AsyncTimeout用于检查异步Request的超时，Handler用于处理接收到的Socket，在内部调用Processor进行处理。</p>
+<p>至此，我们应该很轻松的回答（1）（2）（3）的问题了，但是（4）还是不知道，那么我们就来看一下Container是如何进行处理的以及处理完之后是如何将处理完的结果返回给Connector的？</p>
+<h3 id="Container架构分析"><a href="#Container架构分析" class="headerlink" title="Container架构分析"></a>Container架构分析</h3><p>Container用于封装和管理Servlet，以及具体处理Request请求，在Container内部包含了4个子容器，结构图如下：<br><img src="/2019/04/03/tomcat详解/4.png" alt="4"><br>4个子容器的作用分别是：<br>（1）Engine：引擎，用来管理多个站点，一个Service最多只能有一个Engine；<br>（2）Host：代表一个站点，也可以叫虚拟主机，通过配置Host就可以添加站点；<br>（3）Context：代表一个应用程序，对应着平时开发的一套程序，或者一个WEB-INF目录以及下面的web.xml文件；<br>（4）Wrapper：每一Wrapper封装着一个Servlet；</p>
+<p>下面找一个tomcat的文件目录对照一下，如下图：<br><img src="/2019/04/03/tomcat详解/5.png" alt="5"><br>Context和Host的区别是Context表示一个应用，我们的Tomcat中默认的配置下webapps下的每一个文件夹目录都是一个Context，其中ROOT目录中存放着主应用，其他目录存放着子应用，而整个webapps就是一个Host站点。<br>我们访问应用Context的时候，如果是ROOT下的则直接使用域名就可以访问，例如：<a href="http://www.ledouit.com" target="_blank" rel="noopener">www.ledouit.com</a> ,如果是Host（webapps）下的其他应用，则可以使用 <a href="http://www.ledouit.com/docs" target="_blank" rel="noopener">www.ledouit.com/docs</a> 进行访问，当然默认指定的根应用（ROOT）是可以进行设定的，只不过Host站点下默认的主营用是ROOT目录下的。</p>
+<h4 id="Container是如何请求处理请求的"><a href="#Container是如何请求处理请求的" class="headerlink" title="Container是如何请求处理请求的"></a>Container是如何请求处理请求的</h4><p>Container处理请求是使用Pipeline-Value管道来处理的！<br>Pipeline-Value是责任链模式，责任链模式是指在一个请求处理的过程中有很多处理者依次对请求进行处理，每个处理者负责做自己相应的处理，处理完之后将处理后的请求返回，再让下一个处理着继续处理。<br><img src="/2019/04/03/tomcat详解/3.jpg" alt="3"><br>Pipeline-Value使用的责任链模式和普通的责任链模式有些不同！区别主要有以下两点：</p>
+<blockquote>
+<p>（1）每个Pipeline都有特定的Value，而且是在管道的最后一个执行，这个Value叫做BaseValue，BaseValue是不可删除的；<br>（2）在上层容器的管道的BaseValue中会调用下层容器的管道。</p>
+</blockquote>
+<p>我们知道Container包含四个子容器，而这四个子容器对应的BaseValue分别在：StandardEngineValue、StandardHostValue、StandardContextValue、StandardWrapperValue。<br>Pipeline的处理流程图如下:<br><img src="/2019/04/03/tomcat详解/6.png" alt="6"><br>（1）Connector在接收到请求后会首先调用最顶层容器的Pipeline来处理，这里的最顶层容器的Pipeline就是EnginePipeline（Engine的管道）；<br>（2）在Engine的管道中依次会执行EngineValue1、EngineValue2等等，最后会执行StandardEngineValue，在StandardEngineValue中会调用Host管道，然后再依次执行Host的HostValue1、HostValue2等，最后在执行StandardHostValue，然后再依次调用Context的管道和Wrapper的管道，最后执行到StandardWrapperValue。<br>（3）当执行到StandardWrapperValue的时候，会在StandardWrapperValue中创建FilterChain，并调用其doFilter方法来处理请求，这个FilterChain包含着我们配置的与请求相匹配的Filter和Servlet，其doFilter方法会依次调用所有的Filter的doFilter方法和Servlet的service方法，这样请求就得到了处理！<br>（4）当所有的Pipeline-Value都执行完之后，并且处理完了具体的请求，这个时候就可以将返回的结果交给Connector了，Connector在通过Socket的方式将结果返回给客户端。</p>
+<p>参考文章<br><a href="https://blog.csdn.net/u012661010/article/details/73381599" target="_blank" rel="noopener">Tomcat的目录结构详细介绍</a><br><a href="https://mp.weixin.qq.com/s/xhfYlTUNyWlImqZ7valfaw" target="_blank" rel="noopener">tomcat系统架构</a><br><a href="https://mp.weixin.qq.com/s/ZWgZIurUlpvmEbYASK3siw" target="_blank" rel="noopener">详解tomcat的连接数与线程池</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/java高并发的访问和存储的设计/" rel="next" title="java高并发的访问和存储的设计">
+                <i class="fa fa-chevron-left"></i> java高并发的访问和存储的设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">flydog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat目录"><span class="nav-number">1.</span> <span class="nav-text">tomcat目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat的目录结构"><span class="nav-number">1.1.</span> <span class="nav-text">tomcat的目录结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#详解tomcat的连接数与线程池"><span class="nav-number">2.</span> <span class="nav-text">详解tomcat的连接数与线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">2.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO-BIO-APR"><span class="nav-number">2.2.</span> <span class="nav-text">NIO,BIO,APR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Connector的protocol"><span class="nav-number">2.2.1.</span> <span class="nav-text">Connector的protocol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何指定protocol"><span class="nav-number">2.2.2.</span> <span class="nav-text">如何指定protocol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO-NIO有何不同"><span class="nav-number">2.2.3.</span> <span class="nav-text">BIO/NIO有何不同</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Container架构分析"><span class="nav-number">2.3.</span> <span class="nav-text">Container架构分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Container是如何请求处理请求的"><span class="nav-number">2.3.1.</span> <span class="nav-text">Container是如何请求处理请求的</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">flydog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

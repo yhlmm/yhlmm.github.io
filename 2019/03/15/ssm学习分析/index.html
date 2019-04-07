@@ -100,7 +100,8 @@
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/7.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/8.png">
 <meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/9.png">
-<meta property="og:updated_time" content="2019-04-02T05:47:14.599Z">
+<meta property="og:image" content="http://www.flydoge.cn/2019/03/15/ssm学习分析/10.png">
+<meta property="og:updated_time" content="2019-04-02T05:56:30.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssm学习分析">
 <meta name="twitter:description" content="Mybatis学习Mybatis是一个优秀的基于java持久层框架，内部封装了JDBC，使开发者只需关注SQL语句本身，而不用再花费精力去处理诸如注册驱动，创建Connection，配置Statement等繁杂过程。Mybatis通过xml或注解的方式要将执行的各种statement（statement、preparedStatement等）配置起来，并通过java对象和Statement中的S">
@@ -359,8 +360,8 @@
 <h4 id="注解式开发-命名空间"><a href="#注解式开发-命名空间" class="headerlink" title="注解式开发-命名空间"></a>注解式开发-命名空间</h4><p>一个Controller处理器中定义的是处理器方法，都是一个模块里面，所以一般可以反映出模块信息。</p>
 <p><strong>对提交方式的定义</strong><br>对于@RequestMapping，其有一个属性method方法，用于被注解方法所处理请求的提交方式进行限制，即只有满足该method属性指定的提交方式的请求，才会被执行该注解方法。<br>@RequestMapping(value=” “,method=RequestMethod.POST)<br>    <img src="/2019/03/15/ssm学习分析/8.png" alt="8"></p>
 <h3 id="SpringMVC核心技术"><a href="#SpringMVC核心技术" class="headerlink" title="SpringMVC核心技术"></a>SpringMVC核心技术</h3><h4 id="请求转发与重定向"><a href="#请求转发与重定向" class="headerlink" title="请求转发与重定向"></a>请求转发与重定向</h4><p>当处理器对请求处理完毕后，向其他资源进行跳转时，有两种跳转方式，请求转发与重定向。而根据所需要跳转的资源类型，又可分为跳转到页面与跳转到其他处理器。<br>注意：对于请求转发的页面，可以是WEB-INF中页面；而<strong>重定向的页面，是不能为WEB-INF中页面</strong>。因为重定向相当于用户再次发出一次请求，而用户是不能直接访问WEB-INF中资源的。<br>    <img src="/2019/03/15/ssm学习分析/9.png" alt="9"><br>重定向又叫做服务器外部跳转。重定向的地址栏是会变化的。</p>
-<h4 id="SpringMVC处理请求流程"><a href="#SpringMVC处理请求流程" class="headerlink" title="SpringMVC处理请求流程"></a>SpringMVC处理请求流程</h4><pre><code>![10](ssm学习分析\10.png)
-</code></pre><ol>
+<h4 id="SpringMVC处理请求流程"><a href="#SpringMVC处理请求流程" class="headerlink" title="SpringMVC处理请求流程"></a>SpringMVC处理请求流程</h4><p> <img src="/2019/03/15/ssm学习分析/10.png" alt="10"></p>
+<ol>
 <li>用户发送请求到前端控制器(DispatcherServlet)</li>
 <li>前端控制器请求HandlerMapping查找Handler，可以根据xml配置、注解进行查找</li>
 <li>处理器映射器HandlerMapping向前端控制器返回Handler（执行链）</li>
@@ -486,7 +487,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
